@@ -148,7 +148,8 @@
 - (NSData*)licenseDataForDictionary:(NSDictionary*)dict
 {	
 	// Make sure we have a good key
-	if (!self.rsaKey || !self.rsaKey->n || !self.rsaKey->d) {
+	NSAssert(self.rsaKey != nil, @"Attempted to retrieve license data without first setting a key.");
+	if (!self.rsaKey->n || !self.rsaKey->d) {
 		[self _setError:@"RSA key is invalid"];
 		return nil;
 	}
