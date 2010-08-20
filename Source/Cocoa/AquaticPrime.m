@@ -32,8 +32,10 @@
 
 @interface AquaticPrime ()
 
-@property (nonatomic, assign) RSA rsaKey;
+@property (nonatomic, assign) RSA *rsaKey;
 @property (nonatomic, copy) NSString *lastErrorString;
+
+- (BOOL)setKey:(NSString *)key privateKey:(NSString *)privateKey;
 
 @end
 
@@ -47,16 +49,6 @@
 @synthesize rsaKey = _rsaKey;
 @synthesize lastErrorString = _lastErrorString;
 
-- (id)init
-{
-	return [self initWithKey:nil privateKey:nil];
-}
-
-- (id)initWithKey:(NSString *)key
-{	
-	return [self initWithKey:key privateKey:nil];
-}
-
 - (id)initWithKey:(NSString *)key privateKey:(NSString *)privateKey
 {
 	ERR_load_crypto_strings();
@@ -64,43 +56,20 @@
 	if (![super init])
 		return nil;
 	
-	aqError = [[NSString alloc] init];
-	blacklist = [[NSArray alloc] init];
-	hash = [[NSString alloc] init];
-    rsaKey = nil;
-	
+	_rsaKey = nil;
 	[self setKey:key privateKey:privateKey];
 	
 	return self;
 }
 
-- (void)dealloc
+- (void)finalize
 {	
 	ERR_free_strings();
 	
-	if (rsaKey)
-		RSA_free(rsaKey);
-
-	[blacklist release];
-	[aqError release];
-	[hash release];
+	if (self.rsaKey != NULL)
+		RSA_free(self.rsaKey);
 	
-	[super dealloc];
-}
-
-+ (id)aquaticPrimeWithKey:(NSString *)key privateKey:(NSString *)privateKey
-{
-	return [[[AquaticPrime alloc] initWithKey:key privateKey:privateKey] autorelease];
-}
-
-+ (id)aquaticPrimeWithKey:(NSString *)key
-{
-	return [[[AquaticPrime alloc] initWithKey:key privateKey:nil] autorelease];
-}
-
-- (BOOL)setKey:(NSString *)key 
-{
-	return [self setKey:key privateKey:nil];
+	[super finalize];
 }
 
 - (BOOL)setKey:(NSString *)key privateKey:(NSString *)privateKey
@@ -111,20 +80,20 @@
 		return NO;
 	}
 	
-	if (rsaKey)
-		RSA_free(rsaKey);
+	if (self.rsaKey != nil)
+		RSA_free(self.rsaKey);
 		
-	rsaKey = RSA_new();
+	self.rsaKey = RSA_new();
 	
 	// We are using the constant public exponent e = 3
-	BN_dec2bn(&rsaKey->e, "3");
+	BN_dec2bn(&self.rsaKey->e, "3");
 	
 	// Determine if we have hex or decimal values
 	int result;
 	if ([[key lowercaseString] hasPrefix:@"0x"])
-		result = BN_hex2bn(&rsaKey->n, (const char *)[[key substringFromIndex:2] UTF8String]);
+		result = BN_hex2bn(&self.rsaKey->n, (const char *)[[key substringFromIndex:2] UTF8String]);
 	else
-		result = BN_dec2bn(&rsaKey->n, (const char *)[key UTF8String]);
+		result = BN_dec2bn(&self.rsaKey->n, (const char *)[key UTF8String]);
 		
 	if (!result) {
 		[self _setError:[NSString stringWithUTF8String:(char*)ERR_error_string(ERR_get_error(), NULL)]];
@@ -134,9 +103,9 @@
 	// Do the private portion if it exists
 	if (privateKey && ![privateKey isEqualToString:@""]) {
 		if ([[privateKey lowercaseString] hasPrefix:@"0x"])
-			result = BN_hex2bn(&rsaKey->d, (const char *)[[privateKey substringFromIndex:2] UTF8String]);
+			result = BN_hex2bn(&self.rsaKey->d, (const char *)[[privateKey substringFromIndex:2] UTF8String]);
 		else
-			result = BN_dec2bn(&rsaKey->d, (const char *)[privateKey UTF8String]);
+			result = BN_dec2bn(&self.rsaKey->d, (const char *)[privateKey UTF8String]);
 			
 		if (!result) {
 			[self _setError:[NSString stringWithUTF8String:(char*)ERR_error_string(ERR_get_error(), NULL)]];
@@ -149,10 +118,10 @@
 
 - (NSString *)key
 {
-	if (!rsaKey || !rsaKey->n)
+	if (!self.rsaKey || !self.rsaKey->n)
 		return nil;
 	
-	char *cString = BN_bn2hex(rsaKey->n);
+	char *cString = BN_bn2hex(self.rsaKey->n);
 	
 	NSString *nString = [[NSString alloc] initWithUTF8String:cString];
 	OPENSSL_free(cString);
@@ -162,10 +131,10 @@
 
 - (NSString *)privateKey
 {	
-	if (!rsaKey || !rsaKey->d)
+	if (!self.rsaKey || !self.rsaKey->d)
 		return nil;
 	
-	char *cString = BN_bn2hex(rsaKey->d);
+	char *cString = BN_bn2hex(self.rsaKey->d);
 	
 	NSString *dString = [[NSString alloc] initWithUTF8String:cString];
 	OPENSSL_free(cString);
@@ -173,32 +142,12 @@
 	return dString;
 }
 
-- (void)setHash:(NSString *)newHash
-{
-	[hash release];
-	hash = [newHash retain];
-}
-
-- (NSString *)hash
-{
-	return hash;
-}
-
-#pragma mark Blacklisting
-
-// This array should contain a list of NSStrings representing hexadecimal hashcodes for blacklisted licenses
-- (void)setBlacklist:(NSArray*)hashArray
-{
-	[blacklist release];
-	blacklist = [hashArray retain];
-}
-
 #pragma mark Signing
 
 - (NSData*)licenseDataForDictionary:(NSDictionary*)dict
 {	
 	// Make sure we have a good key
-	if (!rsaKey || !rsaKey->n || !rsaKey->d) {
+	if (!self.rsaKey || !self.rsaKey->n || !self.rsaKey->d) {
 		[self _setError:@"RSA key is invalid"];
 		return nil;
 	}
@@ -224,9 +173,9 @@
 	SHA1([dictData bytes], [dictData length], digest);
 	
 	// Create the signature from 20 byte hash
-	int rsaLength = RSA_size(rsaKey);
+	int rsaLength = RSA_size(self.rsaKey);
 	unsigned char *signature = (unsigned char*)malloc(rsaLength);
-	int bytes = RSA_private_encrypt(20, digest, signature, rsaKey, RSA_PKCS1_PADDING);
+	int bytes = RSA_private_encrypt(20, digest, signature, self.rsaKey, RSA_PKCS1_PADDING);
 	
 	if (bytes == -1) {
 		[self _setError:[NSString stringWithUTF8String:(char*)ERR_error_string(ERR_get_error(), NULL)]];
@@ -265,7 +214,7 @@
 - (NSDictionary*)dictionaryForLicenseData:(NSData *)data
 {	
 	// Make sure public key is set up
-	if (!rsaKey || !rsaKey->n) {
+	if (!self.rsaKey || !self.rsaKey->n) {
 		[self _setError:@"RSA key is invalid"];
 		return nil;
 	}
@@ -283,7 +232,7 @@
 	
 	// Decrypt the signature - should get 20 bytes back
 	unsigned char checkDigest[20];
-	if (RSA_public_decrypt([signature length], [signature bytes], checkDigest, rsaKey, RSA_PKCS1_PADDING) != 20)
+	if (RSA_public_decrypt([signature length], [signature bytes], checkDigest, self.rsaKey, RSA_PKCS1_PADDING) != 20)
 		return nil;
 	
 	// Make sure the license hash isn't on the blacklist
@@ -295,7 +244,7 @@
 	// Store the license hash in case we need it later
 	[self setHash:hashCheck];
 	
-	if (blacklist && [blacklist containsObject:hashCheck])
+	if (self.blacklist && [self.blacklist containsObject:hashCheck])
 			return nil;
 	
 	// Remove the signature element
@@ -357,25 +306,10 @@
 
 #pragma mark Error Handling
 
-- (NSString*)getLastError
-{
-	return aqError;
-}
-
 - (NSError *)lastError
 {
 #warning Create NSError object from string
 	return nil;
-}
-
-@end
-
-@implementation AquaticPrime (Private)
-
-- (void)_setError:(NSString *)err
-{
-	[aqError release];
-	aqError = [err retain];
 }
 
 @end

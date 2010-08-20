@@ -42,9 +42,7 @@
 @property (nonatomic, readonly) NSString *key;
 @property (nonatomic, readonly) NSError *lastError;
 
-- (id)initWithKey:(NSString *)key privateKey:(NSString *)privateKey;
-
-- (BOOL)setKey:(NSString *)newKey withPrivateKey:(NSString *)privateKey;
+- (id)initWithKey:(NSString *)key privateKey:(NSString *)privateKey; //Designated Initialiser
 
 // Generating license data/files
 - (NSData*)licenseDataForDictionary:(NSDictionary *)dict;
