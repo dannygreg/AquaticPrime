@@ -29,27 +29,17 @@
 #include <openssl/sha.h>
 #include <openssl/err.h>
 
-@interface AquaticPrime : NSObject {
-	RSA *rsaKey;
-	
-	NSString *aqError;
-	NSString *hash;
-	NSArray *blacklist;
-}
+@interface AquaticPrime : NSObject
 
-// Creation
-+ (id)aquaticPrimeWithKey:(NSString *)key;
-+ (id)aquaticPrimeWithKey:(NSString *)key privateKey:(NSString *)privateKey;
-- (id)initWithKey:(NSString *)key;
+@property (nonatomic, copy) NSString *hash;
+@property (nonatomic, copy) NSArray *blacklist;
+
+@property (nonatomic, readonly) NSString *key;
+@property (nonatomic, readonly) NSError *lastError;
+
 - (id)initWithKey:(NSString *)key privateKey:(NSString *)privateKey;
 
-// Getters & Setters
-- (BOOL)setKey:(NSString *)key;
-- (BOOL)setKey:(NSString *)key privateKey:(NSString *)privateKey;
-- (NSString *)key;
-- (NSString *)privateKey;
-- (void)setHash:(NSString *)newHash;
-- (NSString *)hash;
+- (BOOL)setKey:(NSString *)newKey withPrivateKey:(NSString *)privateKey;
 
 // Generating license data/files
 - (NSData*)licenseDataForDictionary:(NSDictionary *)dict;
@@ -61,14 +51,4 @@
 - (BOOL)verifyLicenseData:(NSData *)data;
 - (BOOL)verifyLicenseFile:(NSString *)path;
 
-// Blacklisting
-- (void)setBlacklist:(NSArray *)hashArray;
-
-// Error handling
-- (NSString *)getLastError;
-
-@end
-
-@interface AquaticPrime (Private)
-- (void)_setError:(NSString *)err;
 @end
