@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		308740B6121EC000001B8345 /* AquaticPrimeError.m in Sources */ = {isa = PBXBuildFile; fileRef = 308740B5121EC000001B8345 /* AquaticPrimeError.m */; };
+		308740D2121EC326001B8345 /* AquaticPrimeError.m in Sources */ = {isa = PBXBuildFile; fileRef = 308740B5121EC000001B8345 /* AquaticPrimeError.m */; };
 		3D12D49D085286600035BA78 /* AquaticPrime.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D12D49B085286600035BA78 /* AquaticPrime.m */; };
 		3D9B64DB086DCB77006322F1 /* AquaticPrime.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D12D49B085286600035BA78 /* AquaticPrime.m */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
@@ -193,6 +194,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D12D49D085286600035BA78 /* AquaticPrime.m in Sources */,
+				308740D2121EC326001B8345 /* AquaticPrimeError.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
