@@ -24,9 +24,28 @@
 // IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
 // OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+//***************************************************************************
+
 #import "AquaticPrime.h"
 
+//***************************************************************************
+
+@interface AquaticPrime ()
+
+@property (nonatomic, assign) RSA rsaKey;
+@property (nonatomic, copy) NSString *lastErrorString;
+
+@end
+
+//***************************************************************************
+
 @implementation AquaticPrime
+
+@synthesize hash = _hash;
+@synthesize blacklist = _blacklist;
+
+@synthesize rsaKey = _rsaKey;
+@synthesize lastErrorString = _lastErrorString;
 
 - (id)init
 {
@@ -341,6 +360,12 @@
 - (NSString*)getLastError
 {
 	return aqError;
+}
+
+- (NSError *)lastError
+{
+#warning Create NSError object from string
+	return nil;
 }
 
 @end
