@@ -39,8 +39,6 @@
 
 @property (nonatomic, assign) RSA *rsaKey;
 
-- (BOOL)setKey:(NSString *)key privateKey:(NSString *)privateKey;
-
 @end
 
 //***************************************************************************
