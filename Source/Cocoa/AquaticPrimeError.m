@@ -28,6 +28,10 @@
 
 #import "AquaticPrimeError.h"
 
+#include <openssl/rsa.h>
+#include <openssl/sha.h>
+#include <openssl/err.h>
+
 //***************************************************************************
 
 NSString *const AQPErrorDomain = @"com.aquaticmac.AquaticPrime";
@@ -36,7 +40,8 @@ NSString *const AQPErrorDomain = @"com.aquaticmac.AquaticPrime";
 
 //TODO: All errors must be localised
 
-NSError *AQPErrorForDescriptionWithCode(NSString *description, NSInteger code)
+NSError *AQPErrorForERRError(unsigned long errErrorCode)
 {
-	return [NSError errorWithDomain:AQPErrorDomain code:code userInfo:[NSDictionary dictionaryWithObject:description forKey:NSLocalizedDescriptionKey]];
+	NSString *errorString = [NSString stringWithUTF8String:(char*)ERR_error_string(errErrorCode, NULL)];
+	return [NSError errorWithDomain:AQPErrorDomain code:errErrorCode userInfo:[NSDictionary dictionaryWithObject:errorString forKey:NSLocalizedDescriptionKey]];
 }

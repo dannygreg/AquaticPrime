@@ -30,10 +30,4 @@
 
 //***************************************************************************
 
-enum _AQPErrorCode {
-	
-};
-
-//***************************************************************************
-
-NSError *AQPErrorForDescriptionWithCode(NSString *description, NSInteger code);
+NSError *AQPErrorForERRError(unsigned long errErrorCode);
