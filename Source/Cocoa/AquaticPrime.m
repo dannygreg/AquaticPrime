@@ -35,6 +35,22 @@
 
 //***************************************************************************
 
+//We use localisable strings if in a framework, if we have been compiled as a static lib we fall back to whatever was passed in
+
+#ifdef AQUATICPRIME_BUILDING_FRAMEWORK 
+
+#define AQPLocalisedString(string) NSLocalizedStringFromTableInBundle(string, nil, [NSBundle bundleForClass:[self class]], nil)
+
+#else
+
+#define AQPLocalisedString(string) string
+
+#endif
+
+#define AQPErrorForDescriptionWithCode(description, errorCode) [NSError errorWithDomain:AQPErrorDomain code:errorCode userInfo:[NSDictionary dictionaryWithObject:AQPLocalisedString(description) forKey:NSLocalizedDescriptionKey]]
+
+//***************************************************************************
+
 @interface AquaticPrime ()
 
 @property (nonatomic, assign) RSA *rsaKey;
@@ -153,7 +169,7 @@
 	//TODO: Localise this error
 	if (!self.rsaKey->n || !self.rsaKey->d) {
 		if (err != NULL)
-			*err = [NSError errorWithDomain:AQPErrorDomain code:-1 userInfo:[NSDictionary dictionaryWithObject:@"Invalid key." forKey:NSLocalizedDescriptionKey]];
+			*err = [NSError errorWithDomain:AQPErrorDomain code:-1 userInfo:[NSDictionary dictionaryWithObject:AQPLocalisedString(@"Invalid key.") forKey:NSLocalizedDescriptionKey]];
 		
 		return nil;
 	}
@@ -203,32 +219,41 @@
 		if (err != NULL) 
 			*err = [NSError errorWithDomain:AQPErrorDomain code:-2 userInfo:[NSDictionary dictionaryWithObject:error forKey:NSLocalizedDescriptionKey]];
 		
+		
 		return nil;
 	}
 	
 	return licenseFile;
 }
 
-- (NSDictionary*)dictionaryForLicenseData:(NSData *)data
+- (NSDictionary*)dictionaryForLicenseData:(NSData *)data error:(NSError **)err
 {	
 	NSAssert(self.rsaKey != nil, @"Tried to parse license data before setting a key.");
 	NSAssert(self.rsaKey->n, @"Invalid key.");
-
+	
+	void (^assignError)(NSError *) = ^ (NSError *newError) {
+		if (err != NULL)
+			*err = newError;
+	};
+	
 	// Create a dictionary from the data
-	NSPropertyListFormat format;
-	NSString *error;
-	NSMutableDictionary *licenseDict = [NSPropertyListSerialization propertyListFromData:data mutabilityOption:NSPropertyListMutableContainersAndLeaves format:&format errorDescription:&error];
-	if (![licenseDict isKindOfClass:[NSMutableDictionary class]] || error)
+	NSMutableDictionary *licenseDict = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListMutableContainersAndLeaves format:NULL error:err];
+	if (![licenseDict isKindOfClass:[NSMutableDictionary class]] || err) 
 		return nil;
 		
 	NSData *signature = [licenseDict objectForKey:@"Signature"];
-	if (!signature)
+	if (!signature) {
+		assignError(AQPErrorForDescriptionWithCode(@"No signature in license file.", -3));
 		return nil;
+	}
+		
 	
 	// Decrypt the signature - should get 20 bytes back
 	unsigned char checkDigest[20];
-	if (RSA_public_decrypt([signature length], [signature bytes], checkDigest, self.rsaKey, RSA_PKCS1_PADDING) != 20)
+	if (RSA_public_decrypt([signature length], [signature bytes], checkDigest, self.rsaKey, RSA_PKCS1_PADDING) != 20) {
+		assignError(AQPErrorForDescriptionWithCode(@"Invalid license signature.", -4));
 		return nil;
+	}
 	
 	// Make sure the license hash isn't on the blacklist
 	NSMutableString *hashCheck = [NSMutableString string];
@@ -237,10 +262,12 @@
 		[hashCheck appendFormat:@"%02x", checkDigest[hashIndex]];
 	
 	// Store the license hash in case we need it later
-	[self setHash:hashCheck];
+	self.hash = hashCheck;
 	
-	if (self.blacklist && [self.blacklist containsObject:hashCheck])
-			return nil;
+	if (self.blacklist && [self.blacklist containsObject:hashCheck]) {
+		assignError(AQPErrorForDescriptionWithCode(@"This license has been blacklisted.", -5));
+		return nil;
+	}
 	
 	// Remove the signature element
 	[licenseDict removeObjectForKey:@"Signature"];
@@ -268,19 +295,16 @@
 	// Check if the signature is a match	
 	int checkIndex;
 	for (checkIndex = 0; checkIndex < 20; checkIndex++) {
-		if (checkDigest[checkIndex] ^ digest[checkIndex])
+		if (checkDigest[checkIndex] ^ digest[checkIndex]) {
+			assignError(AQPErrorForDescriptionWithCode(@"Invalid license signature.", -5));
 			return nil;
+		}
 	}
 	
 	return [NSDictionary dictionaryWithDictionary:licenseDict];
 }
 
-- (BOOL)verifyLicenseData:(NSData *)data
-{
-	if ([self dictionaryForLicenseData:data])
-		return YES;
-	else
-		return NO;
-}
-
 @end
+
+#undef AQPLocalisedString
+#undef AQPErrorForDescriptionWithCode
