@@ -145,12 +145,16 @@
 
 #pragma mark Signing
 
-- (NSData*)licenseDataForDictionary:(NSDictionary*)dict
+- (NSData *)licenseDataForDictionary:(NSDictionary*)dict error:(NSError *)err
 {	
 	// Make sure we have a good key
 	NSAssert(self.rsaKey != nil, @"Attempted to retrieve license data without first setting a key.");
+	
+	//TODO: Localise this error
 	if (!self.rsaKey->n || !self.rsaKey->d) {
-		[self _setError:@"RSA key is invalid"];
+		if (err != NULL)
+			err = [NSError errorWithDomain:AQPErrorDomain code:-1 userInfo:[NSDictionary dictionaryWithObject:@"Invalid key." forKey:NSLocalizedDescriptionKey]];
+		
 		return nil;
 	}
 	
@@ -194,7 +198,7 @@
 														format:kCFPropertyListXMLFormat_v1_0 
 														errorDescription:&error] retain];
 	
-	if (!licenseFile) {
+	if (licenseFile == nil) {
 		[self _setError:error];
 		return nil;
 	}

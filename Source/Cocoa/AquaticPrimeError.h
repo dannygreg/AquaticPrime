@@ -30,4 +30,8 @@
 
 //***************************************************************************
 
+extern NSString *const AQPErrorDomain;
+
+//***************************************************************************
+
 NSError *AQPErrorForERRError(unsigned long errErrorCode);
