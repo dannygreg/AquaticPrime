@@ -24,10 +24,15 @@
 // IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
 // OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+//***************************************************************************
+
 #import <Cocoa/Cocoa.h>
+
 #include <openssl/rsa.h>
 #include <openssl/sha.h>
 #include <openssl/err.h>
+
+//***************************************************************************
 
 @interface AquaticPrime : NSObject
 
