@@ -28,10 +28,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-#include <openssl/rsa.h>
-#include <openssl/sha.h>
-#include <openssl/err.h>
-
 //***************************************************************************
 
 @interface AquaticPrime : NSObject

@@ -29,6 +29,10 @@
 #import "AquaticPrime.h"
 #import "AquaticPrimeError.h"
 
+#include <openssl/rsa.h>
+#include <openssl/sha.h>
+#include <openssl/err.h>
+
 //***************************************************************************
 
 @interface AquaticPrime ()
@@ -48,7 +52,7 @@
 
 @synthesize rsaKey = _rsaKey;
 
-- (id)initWithKey:(NSString *)key privateKey:(NSString *)privateKey
+- (id)init
 {	
 	ERR_load_crypto_strings();
 	
@@ -64,13 +68,13 @@
 {	
 	ERR_free_strings();
 	
-	if (self.rsaKey != NULL)
+	if (self.rsaKey != nil)
 		RSA_free(self.rsaKey);
 	
 	[super finalize];
 }
 
-- (BOOL)setKey:(NSString *)key privateKey:(NSString *)privateKey
+- (BOOL)setKey:(NSString *)key withPrivateKey:(NSString *)privateKey error:(NSError **)err
 {
 	NSAssert(key != nil, @"Attempted to initialise AquaticPrime without a public key.");
 	NSAssert(![key isEqualToString:@""], @"Attempted to initialise AquaticPrime with an empty public key.");
@@ -91,7 +95,9 @@
 		result = BN_dec2bn(&self.rsaKey->n, (const char *)[key UTF8String]);
 		
 	if (!result) {
-		[self _setError:[NSString stringWithUTF8String:(char*)ERR_error_string(ERR_get_error(), NULL)]];
+		if (err != NULL) 
+			*err = AQPErrorForERRError(ERR_get_error());
+		
 		return NO;
 	}
 	
@@ -103,7 +109,9 @@
 			result = BN_dec2bn(&self.rsaKey->d, (const char *)[privateKey UTF8String]);
 			
 		if (!result) {
-			[self _setError:[NSString stringWithUTF8String:(char*)ERR_error_string(ERR_get_error(), NULL)]];
+			if (err != NULL)
+				*err = AQPErrorForERRError(ERR_get_error());
+			
 			return NO;
 		}
 	}
