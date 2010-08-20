@@ -24,103 +24,108 @@
 // IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
 // OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+//***************************************************************************
+
 #import "AquaticPrime.h"
+#import "AquaticPrimeError.h"
+
+#include <openssl/rsa.h>
+#include <openssl/sha.h>
+#include <openssl/err.h>
+
+//***************************************************************************
+
+//We use localisable strings if in a framework, if we have been compiled as a static lib we fall back to whatever was passed in
+
+#ifdef AQUATICPRIME_BUILDING_FRAMEWORK 
+
+#define AQPLocalisedString(string) NSLocalizedStringFromTableInBundle(string, nil, [NSBundle bundleForClass:[self class]], nil)
+
+#else
+
+#define AQPLocalisedString(string) string
+
+#endif
+
+#define AQPErrorForDescriptionWithCode(description, errorCode) [NSError errorWithDomain:AQPErrorDomain code:errorCode userInfo:[NSDictionary dictionaryWithObject:AQPLocalisedString(description) forKey:NSLocalizedDescriptionKey]]
+
+//***************************************************************************
+
+@interface AquaticPrime ()
+
+@property (nonatomic, assign) RSA *rsaKey;
+
+@end
+
+//***************************************************************************
 
 @implementation AquaticPrime
 
+@synthesize hash = _hash;
+@synthesize blacklist = _blacklist;
+
+@synthesize rsaKey = _rsaKey;
+
 - (id)init
-{
-	return [self initWithKey:nil privateKey:nil];
-}
-
-- (id)initWithKey:(NSString *)key
 {	
-	return [self initWithKey:key privateKey:nil];
-}
-
-- (id)initWithKey:(NSString *)key privateKey:(NSString *)privateKey
-{
 	ERR_load_crypto_strings();
 	
 	if (![super init])
 		return nil;
 	
-	aqError = [[NSString alloc] init];
-	blacklist = [[NSArray alloc] init];
-	hash = [[NSString alloc] init];
-    rsaKey = nil;
-	
-	[self setKey:key privateKey:privateKey];
+	_rsaKey = nil;
 	
 	return self;
 }
 
-- (void)dealloc
+- (void)finalize
 {	
 	ERR_free_strings();
 	
-	if (rsaKey)
-		RSA_free(rsaKey);
-
-	[blacklist release];
-	[aqError release];
-	[hash release];
+	if (self.rsaKey != nil)
+		RSA_free(self.rsaKey);
 	
-	[super dealloc];
+	[super finalize];
 }
 
-+ (id)aquaticPrimeWithKey:(NSString *)key privateKey:(NSString *)privateKey
+- (BOOL)setKey:(NSString *)key withPrivateKey:(NSString *)privateKey error:(NSError **)err
 {
-	return [[[AquaticPrime alloc] initWithKey:key privateKey:privateKey] autorelease];
-}
-
-+ (id)aquaticPrimeWithKey:(NSString *)key
-{
-	return [[[AquaticPrime alloc] initWithKey:key privateKey:nil] autorelease];
-}
-
-- (BOOL)setKey:(NSString *)key 
-{
-	return [self setKey:key privateKey:nil];
-}
-
-- (BOOL)setKey:(NSString *)key privateKey:(NSString *)privateKey
-{
-	// Must have public modulus, private key is optional
-	if (!key || [key isEqualToString:@""]) {
-		[self _setError:@"Empty public key parameter"];
-		return NO;
-	}
+	NSAssert(key != nil, @"Attempted to initialise AquaticPrime without a public key.");
+	NSAssert(![key isEqualToString:@""], @"Attempted to initialise AquaticPrime with an empty public key.");
 	
-	if (rsaKey)
-		RSA_free(rsaKey);
+	if (self.rsaKey != nil)
+		RSA_free(self.rsaKey);
 		
-	rsaKey = RSA_new();
+	self.rsaKey = RSA_new();
 	
 	// We are using the constant public exponent e = 3
-	BN_dec2bn(&rsaKey->e, "3");
+	BN_dec2bn(&self.rsaKey->e, "3");
 	
 	// Determine if we have hex or decimal values
 	int result;
 	if ([[key lowercaseString] hasPrefix:@"0x"])
-		result = BN_hex2bn(&rsaKey->n, (const char *)[[key substringFromIndex:2] UTF8String]);
+		result = BN_hex2bn(&self.rsaKey->n, (const char *)[[key substringFromIndex:2] UTF8String]);
 	else
-		result = BN_dec2bn(&rsaKey->n, (const char *)[key UTF8String]);
+		result = BN_dec2bn(&self.rsaKey->n, (const char *)[key UTF8String]);
 		
 	if (!result) {
-		[self _setError:[NSString stringWithUTF8String:(char*)ERR_error_string(ERR_get_error(), NULL)]];
+		if (err != NULL) 
+			*err = AQPErrorForERRError(ERR_get_error());
+		
 		return NO;
 	}
 	
 	// Do the private portion if it exists
 	if (privateKey && ![privateKey isEqualToString:@""]) {
 		if ([[privateKey lowercaseString] hasPrefix:@"0x"])
-			result = BN_hex2bn(&rsaKey->d, (const char *)[[privateKey substringFromIndex:2] UTF8String]);
+			result = BN_hex2bn(&self.rsaKey->d, (const char *)[[privateKey substringFromIndex:2] UTF8String]);
 		else
-			result = BN_dec2bn(&rsaKey->d, (const char *)[privateKey UTF8String]);
+			result = BN_dec2bn(&self.rsaKey->d, (const char *)[privateKey UTF8String]);
 			
 		if (!result) {
-			[self _setError:[NSString stringWithUTF8String:(char*)ERR_error_string(ERR_get_error(), NULL)]];
+			if (err != NULL)
+				*err = AQPErrorForERRError(ERR_get_error());
+			
 			return NO;
 		}
 	}
@@ -130,10 +135,10 @@
 
 - (NSString *)key
 {
-	if (!rsaKey || !rsaKey->n)
+	if (!self.rsaKey || !self.rsaKey->n)
 		return nil;
 	
-	char *cString = BN_bn2hex(rsaKey->n);
+	char *cString = BN_bn2hex(self.rsaKey->n);
 	
 	NSString *nString = [[NSString alloc] initWithUTF8String:cString];
 	OPENSSL_free(cString);
@@ -143,10 +148,10 @@
 
 - (NSString *)privateKey
 {	
-	if (!rsaKey || !rsaKey->d)
+	if (!self.rsaKey || !self.rsaKey->d)
 		return nil;
 	
-	char *cString = BN_bn2hex(rsaKey->d);
+	char *cString = BN_bn2hex(self.rsaKey->d);
 	
 	NSString *dString = [[NSString alloc] initWithUTF8String:cString];
 	OPENSSL_free(cString);
@@ -154,33 +159,18 @@
 	return dString;
 }
 
-- (void)setHash:(NSString *)newHash
-{
-	[hash release];
-	hash = [newHash retain];
-}
-
-- (NSString *)hash
-{
-	return hash;
-}
-
-#pragma mark Blacklisting
-
-// This array should contain a list of NSStrings representing hexadecimal hashcodes for blacklisted licenses
-- (void)setBlacklist:(NSArray*)hashArray
-{
-	[blacklist release];
-	blacklist = [hashArray retain];
-}
-
 #pragma mark Signing
 
-- (NSData*)licenseDataForDictionary:(NSDictionary*)dict
+- (NSData *)licenseDataForDictionary:(NSDictionary*)dict error:(NSError **)err
 {	
 	// Make sure we have a good key
-	if (!rsaKey || !rsaKey->n || !rsaKey->d) {
-		[self _setError:@"RSA key is invalid"];
+	NSAssert(self.rsaKey != nil, @"Attempted to retrieve license data without first setting a key.");
+	
+	//TODO: Localise this error
+	if (!self.rsaKey->n || !self.rsaKey->d) {
+		if (err != NULL)
+			*err = [NSError errorWithDomain:AQPErrorDomain code:-1 userInfo:[NSDictionary dictionaryWithObject:AQPLocalisedString(@"Invalid key.") forKey:NSLocalizedDescriptionKey]];
+		
 		return nil;
 	}
 	
@@ -205,12 +195,13 @@
 	SHA1([dictData bytes], [dictData length], digest);
 	
 	// Create the signature from 20 byte hash
-	int rsaLength = RSA_size(rsaKey);
+	int rsaLength = RSA_size(self.rsaKey);
 	unsigned char *signature = (unsigned char*)malloc(rsaLength);
-	int bytes = RSA_private_encrypt(20, digest, signature, rsaKey, RSA_PKCS1_PADDING);
+	int bytes = RSA_private_encrypt(20, digest, signature, self.rsaKey, RSA_PKCS1_PADDING);
 	
 	if (bytes == -1) {
-		[self _setError:[NSString stringWithUTF8String:(char*)ERR_error_string(ERR_get_error(), NULL)]];
+		if (err != NULL)
+			*err = AQPErrorForERRError(ERR_get_error());
 		return nil;
 	}
 	
@@ -219,53 +210,50 @@
 	[licenseDict setObject:[NSData dataWithBytes:signature length:bytes]  forKey:@"Signature"];
 	
 	// Create the data from the dictionary
-	NSString *error;
+	NSString *error = nil;
 	NSData *licenseFile = [[NSPropertyListSerialization dataFromPropertyList:licenseDict 
 														format:kCFPropertyListXMLFormat_v1_0 
 														errorDescription:&error] retain];
 	
-	if (!licenseFile) {
-		[self _setError:error];
+	if (licenseFile == nil) {
+		if (err != NULL) 
+			*err = [NSError errorWithDomain:AQPErrorDomain code:-2 userInfo:[NSDictionary dictionaryWithObject:error forKey:NSLocalizedDescriptionKey]];
+		
+		
 		return nil;
 	}
 	
 	return licenseFile;
 }
 
-- (BOOL)writeLicenseFileForDictionary:(NSDictionary*)dict toPath:(NSString *)path
-{
-	NSData *licenseFile = [self licenseDataForDictionary:dict];
-	
-	if (!licenseFile)
-		return NO;
-	
-	return [licenseFile writeToFile:path atomically:YES];
-}
-
-// This method only logs errors on developer problems, so don't expect to grab an error message if it's just an invalid license
-- (NSDictionary*)dictionaryForLicenseData:(NSData *)data
+- (NSDictionary*)dictionaryForLicenseData:(NSData *)data error:(NSError **)err
 {	
-	// Make sure public key is set up
-	if (!rsaKey || !rsaKey->n) {
-		[self _setError:@"RSA key is invalid"];
-		return nil;
-	}
-
+	NSAssert(self.rsaKey != nil, @"Tried to parse license data before setting a key.");
+	NSAssert(self.rsaKey->n, @"Invalid key.");
+	
+	void (^assignError)(NSError *) = ^ (NSError *newError) {
+		if (err != NULL)
+			*err = newError;
+	};
+	
 	// Create a dictionary from the data
-	NSPropertyListFormat format;
-	NSString *error;
-	NSMutableDictionary *licenseDict = [NSPropertyListSerialization propertyListFromData:data mutabilityOption:NSPropertyListMutableContainersAndLeaves format:&format errorDescription:&error];
-	if (![licenseDict isKindOfClass:[NSMutableDictionary class]] || error)
+	NSMutableDictionary *licenseDict = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListMutableContainersAndLeaves format:NULL error:err];
+	if (![licenseDict isKindOfClass:[NSMutableDictionary class]] || err) 
 		return nil;
 		
 	NSData *signature = [licenseDict objectForKey:@"Signature"];
-	if (!signature)
+	if (!signature) {
+		assignError(AQPErrorForDescriptionWithCode(@"No signature in license file.", -3));
 		return nil;
+	}
+		
 	
 	// Decrypt the signature - should get 20 bytes back
 	unsigned char checkDigest[20];
-	if (RSA_public_decrypt([signature length], [signature bytes], checkDigest, rsaKey, RSA_PKCS1_PADDING) != 20)
+	if (RSA_public_decrypt([signature length], [signature bytes], checkDigest, self.rsaKey, RSA_PKCS1_PADDING) != 20) {
+		assignError(AQPErrorForDescriptionWithCode(@"Invalid license signature.", -4));
 		return nil;
+	}
 	
 	// Make sure the license hash isn't on the blacklist
 	NSMutableString *hashCheck = [NSMutableString string];
@@ -274,10 +262,12 @@
 		[hashCheck appendFormat:@"%02x", checkDigest[hashIndex]];
 	
 	// Store the license hash in case we need it later
-	[self setHash:hashCheck];
+	self.hash = hashCheck;
 	
-	if (blacklist && [blacklist containsObject:hashCheck])
-			return nil;
+	if (self.blacklist && [self.blacklist containsObject:hashCheck]) {
+		assignError(AQPErrorForDescriptionWithCode(@"This license has been blacklisted.", -5));
+		return nil;
+	}
 	
 	// Remove the signature element
 	[licenseDict removeObjectForKey:@"Signature"];
@@ -305,52 +295,16 @@
 	// Check if the signature is a match	
 	int checkIndex;
 	for (checkIndex = 0; checkIndex < 20; checkIndex++) {
-		if (checkDigest[checkIndex] ^ digest[checkIndex])
+		if (checkDigest[checkIndex] ^ digest[checkIndex]) {
+			assignError(AQPErrorForDescriptionWithCode(@"Invalid license signature.", -5));
 			return nil;
+		}
 	}
 	
 	return [NSDictionary dictionaryWithDictionary:licenseDict];
 }
 
-- (NSDictionary*)dictionaryForLicenseFile:(NSString *)path
-{
-	NSData *licenseFile = [NSData dataWithContentsOfFile:path];
-	
-	if (!licenseFile)
-		return nil;
-	
-	return [self dictionaryForLicenseData:licenseFile];
-}
-
-- (BOOL)verifyLicenseData:(NSData *)data
-{
-	if ([self dictionaryForLicenseData:data])
-		return YES;
-	else
-		return NO;
-}
-
-- (BOOL)verifyLicenseFile:(NSString *)path
-{
-	NSData *data = [NSData dataWithContentsOfFile:path];
-	return [self verifyLicenseData:data];
-}
-
-#pragma mark Error Handling
-
-- (NSString*)getLastError
-{
-	return aqError;
-}
-
 @end
 
-@implementation AquaticPrime (Private)
-
-- (void)_setError:(NSString *)err
-{
-	[aqError release];
-	aqError = [err retain];
-}
-
-@end
+#undef AQPLocalisedString
+#undef AQPErrorForDescriptionWithCode

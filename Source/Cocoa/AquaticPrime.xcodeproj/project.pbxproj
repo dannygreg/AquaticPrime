@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		308740B6121EC000001B8345 /* AquaticPrimeError.m in Sources */ = {isa = PBXBuildFile; fileRef = 308740B5121EC000001B8345 /* AquaticPrimeError.m */; };
+		308740D2121EC326001B8345 /* AquaticPrimeError.m in Sources */ = {isa = PBXBuildFile; fileRef = 308740B5121EC000001B8345 /* AquaticPrimeError.m */; };
 		3D12D49D085286600035BA78 /* AquaticPrime.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D12D49B085286600035BA78 /* AquaticPrime.m */; };
 		3D9B64DB086DCB77006322F1 /* AquaticPrime.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D12D49B085286600035BA78 /* AquaticPrime.m */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
@@ -16,6 +18,8 @@
 /* Begin PBXFileReference section */
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		308740B4121EC000001B8345 /* AquaticPrimeError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AquaticPrimeError.h; sourceTree = "<group>"; };
+		308740B5121EC000001B8345 /* AquaticPrimeError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AquaticPrimeError.m; sourceTree = "<group>"; };
 		32DBCF5E0370ADEE00C91783 /* AquaticPrime_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AquaticPrime_Prefix.pch; sourceTree = "<group>"; };
 		3D12D49A085286600035BA78 /* AquaticPrime.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AquaticPrime.h; sourceTree = "<group>"; };
 		3D12D49B085286600035BA78 /* AquaticPrime.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AquaticPrime.m; sourceTree = "<group>"; };
@@ -86,6 +90,8 @@
 			children = (
 				3D12D49A085286600035BA78 /* AquaticPrime.h */,
 				3D12D49B085286600035BA78 /* AquaticPrime.m */,
+				308740B4121EC000001B8345 /* AquaticPrimeError.h */,
+				308740B5121EC000001B8345 /* AquaticPrimeError.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -179,6 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D9B64DB086DCB77006322F1 /* AquaticPrime.m in Sources */,
+				308740B6121EC000001B8345 /* AquaticPrimeError.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,6 +194,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D12D49D085286600035BA78 /* AquaticPrime.m in Sources */,
+				308740D2121EC326001B8345 /* AquaticPrimeError.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,6 +229,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = AquaticPrime_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = "AQUATICPRIME_BUILDING_FRAMEWORK=1";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -258,6 +267,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = AquaticPrime_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = "AQUATICPRIME_BUILDING_FRAMEWORK=1";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -294,6 +304,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = AquaticPrime_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = "AQUATICPRIME_BUILDING_FRAMEWORK=1";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
