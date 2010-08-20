@@ -43,13 +43,10 @@
 - (BOOL)setKey:(NSString *)key withPrivateKey:(NSString *)privateKey error:(NSError **)err;
 
 // Generating license data/files
-- (NSData *)licenseDataForDictionary:(NSDictionary*)dict error:(NSError *)err;
-- (BOOL)writeLicenseFileForDictionary:(NSDictionary *)dict toPath:(NSString *)path;
+- (NSData *)licenseDataForDictionary:(NSDictionary*)dict error:(NSError **)err;
 
 // Validating license data/files
 - (NSDictionary *)dictionaryForLicenseData:(NSData *)data;
-- (NSDictionary *)dictionaryForLicenseFile:(NSString *)path;
 - (BOOL)verifyLicenseData:(NSData *)data;
-- (BOOL)verifyLicenseFile:(NSString *)path;
 
 @end

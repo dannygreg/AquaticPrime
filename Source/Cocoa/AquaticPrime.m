@@ -145,7 +145,7 @@
 
 #pragma mark Signing
 
-- (NSData *)licenseDataForDictionary:(NSDictionary*)dict error:(NSError *)err
+- (NSData *)licenseDataForDictionary:(NSDictionary*)dict error:(NSError **)err
 {	
 	// Make sure we have a good key
 	NSAssert(self.rsaKey != nil, @"Attempted to retrieve license data without first setting a key.");
@@ -153,7 +153,7 @@
 	//TODO: Localise this error
 	if (!self.rsaKey->n || !self.rsaKey->d) {
 		if (err != NULL)
-			err = [NSError errorWithDomain:AQPErrorDomain code:-1 userInfo:[NSDictionary dictionaryWithObject:@"Invalid key." forKey:NSLocalizedDescriptionKey]];
+			*err = [NSError errorWithDomain:AQPErrorDomain code:-1 userInfo:[NSDictionary dictionaryWithObject:@"Invalid key." forKey:NSLocalizedDescriptionKey]];
 		
 		return nil;
 	}
@@ -184,7 +184,8 @@
 	int bytes = RSA_private_encrypt(20, digest, signature, self.rsaKey, RSA_PKCS1_PADDING);
 	
 	if (bytes == -1) {
-		[self _setError:[NSString stringWithUTF8String:(char*)ERR_error_string(ERR_get_error(), NULL)]];
+		if (err != NULL)
+			*err = AQPErrorForERRError(ERR_get_error());
 		return nil;
 	}
 	
@@ -193,37 +194,25 @@
 	[licenseDict setObject:[NSData dataWithBytes:signature length:bytes]  forKey:@"Signature"];
 	
 	// Create the data from the dictionary
-	NSString *error;
+	NSString *error = nil;
 	NSData *licenseFile = [[NSPropertyListSerialization dataFromPropertyList:licenseDict 
 														format:kCFPropertyListXMLFormat_v1_0 
 														errorDescription:&error] retain];
 	
 	if (licenseFile == nil) {
-		[self _setError:error];
+		if (err != NULL) 
+			*err = [NSError errorWithDomain:AQPErrorDomain code:-2 userInfo:[NSDictionary dictionaryWithObject:error forKey:NSLocalizedDescriptionKey]];
+		
 		return nil;
 	}
 	
 	return licenseFile;
 }
 
-- (BOOL)writeLicenseFileForDictionary:(NSDictionary*)dict toPath:(NSString *)path
-{
-	NSData *licenseFile = [self licenseDataForDictionary:dict];
-	
-	if (!licenseFile)
-		return NO;
-	
-	return [licenseFile writeToFile:path atomically:YES];
-}
-
-// This method only logs errors on developer problems, so don't expect to grab an error message if it's just an invalid license
 - (NSDictionary*)dictionaryForLicenseData:(NSData *)data
 {	
-	// Make sure public key is set up
-	if (!self.rsaKey || !self.rsaKey->n) {
-		[self _setError:@"RSA key is invalid"];
-		return nil;
-	}
+	NSAssert(self.rsaKey != nil, @"Tried to parse license data before setting a key.");
+	NSAssert(self.rsaKey->n, @"Invalid key.");
 
 	// Create a dictionary from the data
 	NSPropertyListFormat format;
@@ -286,28 +275,12 @@
 	return [NSDictionary dictionaryWithDictionary:licenseDict];
 }
 
-- (NSDictionary*)dictionaryForLicenseFile:(NSString *)path
-{
-	NSData *licenseFile = [NSData dataWithContentsOfFile:path];
-	
-	if (!licenseFile)
-		return nil;
-	
-	return [self dictionaryForLicenseData:licenseFile];
-}
-
 - (BOOL)verifyLicenseData:(NSData *)data
 {
 	if ([self dictionaryForLicenseData:data])
 		return YES;
 	else
 		return NO;
-}
-
-- (BOOL)verifyLicenseFile:(NSString *)path
-{
-	NSData *data = [NSData dataWithContentsOfFile:path];
-	return [self verifyLicenseData:data];
 }
 
 @end
