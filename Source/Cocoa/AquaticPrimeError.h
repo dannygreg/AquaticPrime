@@ -1,5 +1,5 @@
 //
-// AquaticPrime.h
+// AquaticPrime.m
 // AquaticPrime Framework
 //
 // Copyright (c) 2005-2009 Lucas Newman and other contributors
@@ -7,12 +7,12 @@
 //
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
-//	¥Redistributions of source code must retain the above copyright notice,
+//	â€¢Redistributions of source code must retain the above copyright notice,
 //	 this list of conditions and the following disclaimer.
-//	¥Redistributions in binary form must reproduce the above copyright notice,
+//	â€¢Redistributions in binary form must reproduce the above copyright notice,
 //	 this list of conditions and the following disclaimer in the documentation and/or
 //	 other materials provided with the distribution.
-//	¥Neither the name of Aquatic nor the names of its contributors may be used to 
+//	â€¢Neither the name of Aquatic nor the names of its contributors may be used to 
 //	 endorse or promote products derived from this software without specific prior written permission.
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
@@ -30,23 +30,8 @@
 
 //***************************************************************************
 
-@interface AquaticPrime : NSObject
+extern NSString *const AQPErrorDomain;
 
-@property (nonatomic, copy) NSString *hash;
-@property (nonatomic, copy) NSArray *blacklist;
+//***************************************************************************
 
-@property (nonatomic, readonly) NSString *key;
-@property (nonatomic, readonly) NSString *privateKey;
-
-- (id)init; //Designated Initialiser
-
-- (BOOL)setKey:(NSString *)key withPrivateKey:(NSString *)privateKey error:(NSError **)err;
-
-// Generating license data/files
-- (NSData *)licenseDataForDictionary:(NSDictionary*)dict error:(NSError **)err;
-
-// Validating license data/files
-- (NSDictionary *)dictionaryForLicenseData:(NSData *)data;
-- (BOOL)verifyLicenseData:(NSData *)data;
-
-@end
+NSError *AQPErrorForERRError(unsigned long errErrorCode);
