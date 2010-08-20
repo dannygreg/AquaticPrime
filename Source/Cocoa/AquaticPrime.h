@@ -40,9 +40,11 @@
 @property (nonatomic, copy) NSArray *blacklist;
 
 @property (nonatomic, readonly) NSString *key;
-@property (nonatomic, readonly) NSError *lastError;
+@property (nonatomic, readonly) NSString *privateKey;
 
-- (id)initWithKey:(NSString *)key privateKey:(NSString *)privateKey; //Designated Initialiser
+- (id)init; //Designated Initialiser
+
+- (BOOL)setKey:(NSString *)key withPrivateKey:(NSString *)privateKey error:(NSError **)err;
 
 // Generating license data/files
 - (NSData*)licenseDataForDictionary:(NSDictionary *)dict;

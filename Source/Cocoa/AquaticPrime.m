@@ -27,13 +27,13 @@
 //***************************************************************************
 
 #import "AquaticPrime.h"
+#import "AquaticPrimeError.h"
 
 //***************************************************************************
 
 @interface AquaticPrime ()
 
 @property (nonatomic, assign) RSA *rsaKey;
-@property (nonatomic, assign) NSError *lastError;
 
 - (BOOL)setKey:(NSString *)key privateKey:(NSString *)privateKey;
 
@@ -47,17 +47,15 @@
 @synthesize blacklist = _blacklist;
 
 @synthesize rsaKey = _rsaKey;
-@synthesize lastError = _lastError;
 
 - (id)initWithKey:(NSString *)key privateKey:(NSString *)privateKey
-{
+{	
 	ERR_load_crypto_strings();
 	
 	if (![super init])
 		return nil;
 	
 	_rsaKey = nil;
-	[self setKey:key privateKey:privateKey];
 	
 	return self;
 }
@@ -74,12 +72,8 @@
 
 - (BOOL)setKey:(NSString *)key privateKey:(NSString *)privateKey
 {
-	// Must have public modulus, private key is optional
-	if (!key || [key isEqualToString:@""]) {
-		
-		[self _setError:@"Empty public key parameter"];
-		return NO;
-	}
+	NSAssert(key != nil, @"Attempted to initialise AquaticPrime without a public key.");
+	NSAssert(![key isEqualToString:@""], @"Attempted to initialise AquaticPrime with an empty public key.");
 	
 	if (self.rsaKey != nil)
 		RSA_free(self.rsaKey);
