@@ -46,7 +46,6 @@
 - (NSData *)licenseDataForDictionary:(NSDictionary*)dict error:(NSError **)err;
 
 // Validating license data/files
-- (NSDictionary *)dictionaryForLicenseData:(NSData *)data;
-- (BOOL)verifyLicenseData:(NSData *)data;
+- (NSDictionary *)dictionaryForLicenseData:(NSData *)data error:(NSError **)err;
 
 @end
