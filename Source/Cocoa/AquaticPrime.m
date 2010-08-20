@@ -33,7 +33,7 @@
 @interface AquaticPrime ()
 
 @property (nonatomic, assign) RSA *rsaKey;
-@property (nonatomic, copy) NSString *lastErrorString;
+@property (nonatomic, assign) NSError *lastError;
 
 - (BOOL)setKey:(NSString *)key privateKey:(NSString *)privateKey;
 
@@ -47,7 +47,7 @@
 @synthesize blacklist = _blacklist;
 
 @synthesize rsaKey = _rsaKey;
-@synthesize lastErrorString = _lastErrorString;
+@synthesize lastError = _lastError;
 
 - (id)initWithKey:(NSString *)key privateKey:(NSString *)privateKey
 {
@@ -76,6 +76,7 @@
 {
 	// Must have public modulus, private key is optional
 	if (!key || [key isEqualToString:@""]) {
+		
 		[self _setError:@"Empty public key parameter"];
 		return NO;
 	}
@@ -302,14 +303,6 @@
 {
 	NSData *data = [NSData dataWithContentsOfFile:path];
 	return [self verifyLicenseData:data];
-}
-
-#pragma mark Error Handling
-
-- (NSError *)lastError
-{
-#warning Create NSError object from string
-	return nil;
 }
 
 @end
