@@ -226,7 +226,7 @@
 	return licenseFile;
 }
 
-- (NSDictionary*)dictionaryForLicenseData:(NSData *)data error:(NSError **)err
+- (NSDictionary *)verifiedDictionaryForLicenseData:(NSData *)data error:(NSError **)err
 {	
 	NSAssert(self.rsaKey != nil, @"Tried to parse license data before setting a key.");
 	NSAssert(self.rsaKey->n, @"Invalid key.");
