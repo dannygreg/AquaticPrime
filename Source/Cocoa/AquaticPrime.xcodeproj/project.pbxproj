@@ -15,9 +15,6 @@
 		306AD396122287D800A3BCDA /* AquaticPrime+SerialNumberSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 306AD393122287D800A3BCDA /* AquaticPrime+SerialNumberSupport.h */; };
 		306AD397122287D800A3BCDA /* AquaticPrime+SerialNumberSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 306AD394122287D800A3BCDA /* AquaticPrime+SerialNumberSupport.m */; };
 		306AD3B212228F1300A3BCDA /* AquaticPrime+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 306AD3B112228F1300A3BCDA /* AquaticPrime+Private.h */; };
-		306AD40F1222ACBE00A3BCDA /* AquaticPrime.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D12D49B085286600035BA78 /* AquaticPrime.m */; };
-		306AD4101222ACBE00A3BCDA /* AquaticPrimeError.m in Sources */ = {isa = PBXBuildFile; fileRef = 308740B5121EC000001B8345 /* AquaticPrimeError.m */; };
-		306AD4111222ACBE00A3BCDA /* AquaticPrimeSigning.m in Sources */ = {isa = PBXBuildFile; fileRef = 306AD374122283B800A3BCDA /* AquaticPrimeSigning.m */; };
 		306AD44A1222ADD300A3BCDA /* Test_License.plist in Resources */ = {isa = PBXBuildFile; fileRef = 306AD4491222ADD300A3BCDA /* Test_License.plist */; };
 		306AD44D1222AE9E00A3BCDA /* LicenseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 306AD44C1222AE9E00A3BCDA /* LicenseTests.m */; };
 		306AD45B1222AF9700A3BCDA /* AquaticPrime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* AquaticPrime.framework */; };
@@ -303,9 +300,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				306AD40F1222ACBE00A3BCDA /* AquaticPrime.m in Sources */,
-				306AD4101222ACBE00A3BCDA /* AquaticPrimeError.m in Sources */,
-				306AD4111222ACBE00A3BCDA /* AquaticPrimeSigning.m in Sources */,
 				306AD44D1222AE9E00A3BCDA /* LicenseTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -370,6 +364,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "UnitTests-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				OTHER_LDFLAGS = (
@@ -381,6 +376,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = UnitTests;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Development;
@@ -400,6 +396,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "UnitTests-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				OTHER_LDFLAGS = (
@@ -411,6 +408,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = UnitTests;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = octest;
 				ZERO_LINK = NO;
 			};
@@ -429,6 +427,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "UnitTests-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				OTHER_LDFLAGS = (
@@ -440,6 +439,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = UnitTests;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Default;
