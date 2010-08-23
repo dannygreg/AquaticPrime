@@ -33,11 +33,27 @@
 #include <openssl/sha.h>
 #include <openssl/err.h>
 
-NSData *AQPSignatureForDataWithKey(NSData *data, RSA *key, NSError **err)
+NSData *AQPSignatureForDictionaryWithKey(NSDictionary *dict, RSA *key, NSError **err)
 {
+	// Grab all values from the dictionary
+	NSMutableArray *keyArray = [NSMutableArray arrayWithArray:[dict allKeys]];
+	NSMutableData *dictData = [NSMutableData data];
+	
+	// Sort the keys so we always have a uniform order
+	[keyArray sortUsingSelector:@selector(caseInsensitiveCompare:)];
+	
+	int i;
+	for (i = 0; i < [keyArray count]; i++)
+	{
+		id curValue = [dict objectForKey:[keyArray objectAtIndex:i]];
+		char *desc = (char *)[[curValue description] UTF8String];
+		// We use strlen instead of [string length] so we can get all the bytes of accented characters
+		[dictData appendBytes:desc length:strlen(desc)];
+	}
+	
 	// Hash the data
 	unsigned char digest[20];
-	SHA1([data bytes], [data length], digest);
+	SHA1([dictData bytes], [dictData length], digest);
 	
 	int rsaLength = RSA_size(key);
 	unsigned char *signature = (unsigned char*)malloc(rsaLength);

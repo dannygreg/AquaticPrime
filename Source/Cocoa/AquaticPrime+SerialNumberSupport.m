@@ -1,5 +1,5 @@
 //
-// AquaticPrime.m
+// AquaticPrime.h
 // AquaticPrime Framework
 //
 // Copyright (c) 2005-2009 Lucas Newman and other contributors
@@ -24,10 +24,9 @@
 // IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
 // OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-//***************************************************************************
+#import "AquaticPrime+SerialNumberSupport.h"
 
-#import <Cocoa/Cocoa.h>
 
-#include <openssl/rsa.h>
+@implementation AquaticPrime (SerialNumberSupport)
 
-NSData *AQPSignatureForDictionaryWithKey(NSDictionary *dict, RSA *key, NSError **err);
+@end

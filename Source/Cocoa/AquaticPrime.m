@@ -175,23 +175,7 @@
 		return nil;
 	}
 	
-	// Grab all values from the dictionary
-	NSMutableArray *keyArray = [NSMutableArray arrayWithArray:[dict allKeys]];
-	NSMutableData *dictData = [NSMutableData data];
-	
-	// Sort the keys so we always have a uniform order
-	[keyArray sortUsingSelector:@selector(caseInsensitiveCompare:)];
-	
-	int i;
-	for (i = 0; i < [keyArray count]; i++)
-	{
-		id curValue = [dict objectForKey:[keyArray objectAtIndex:i]];
-		char *desc = (char *)[[curValue description] UTF8String];
-		// We use strlen instead of [string length] so we can get all the bytes of accented characters
-		[dictData appendBytes:desc length:strlen(desc)];
-	}
-	
-	NSData *signatureData = AQPSignatureForDataWithKey(dictData, self.rsaKey, err);
+	NSData *signatureData = AQPSignatureForDictionaryWithKey(dict, self.rsaKey, err);
 	if (signatureData == nil)
 		return nil;
 	
