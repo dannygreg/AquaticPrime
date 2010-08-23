@@ -19,6 +19,8 @@
 		306AD4101222ACBE00A3BCDA /* AquaticPrimeError.m in Sources */ = {isa = PBXBuildFile; fileRef = 308740B5121EC000001B8345 /* AquaticPrimeError.m */; };
 		306AD4111222ACBE00A3BCDA /* AquaticPrimeSigning.m in Sources */ = {isa = PBXBuildFile; fileRef = 306AD374122283B800A3BCDA /* AquaticPrimeSigning.m */; };
 		306AD44A1222ADD300A3BCDA /* Test_License.plist in Resources */ = {isa = PBXBuildFile; fileRef = 306AD4491222ADD300A3BCDA /* Test_License.plist */; };
+		306AD44D1222AE9E00A3BCDA /* LicenseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 306AD44C1222AE9E00A3BCDA /* LicenseTests.m */; };
+		306AD45B1222AF9700A3BCDA /* AquaticPrime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* AquaticPrime.framework */; };
 		308740B6121EC000001B8345 /* AquaticPrimeError.m in Sources */ = {isa = PBXBuildFile; fileRef = 308740B5121EC000001B8345 /* AquaticPrimeError.m */; };
 		308740D2121EC326001B8345 /* AquaticPrimeError.m in Sources */ = {isa = PBXBuildFile; fileRef = 308740B5121EC000001B8345 /* AquaticPrimeError.m */; };
 		3D12D49D085286600035BA78 /* AquaticPrime.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D12D49B085286600035BA78 /* AquaticPrime.m */; };
@@ -26,6 +28,16 @@
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		306AD4571222AF8B00A3BCDA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* AquaticPrime */;
+			remoteInfo = AquaticPrime;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -38,6 +50,8 @@
 		306AD4091222ACA400A3BCDA /* UnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		306AD40A1222ACA400A3BCDA /* UnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
 		306AD4491222ADD300A3BCDA /* Test_License.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Test_License.plist; sourceTree = "<group>"; };
+		306AD44B1222AE9E00A3BCDA /* LicenseTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LicenseTests.h; sourceTree = "<group>"; };
+		306AD44C1222AE9E00A3BCDA /* LicenseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LicenseTests.m; sourceTree = "<group>"; };
 		308740B4121EC000001B8345 /* AquaticPrimeError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AquaticPrimeError.h; sourceTree = "<group>"; };
 		308740B5121EC000001B8345 /* AquaticPrimeError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AquaticPrimeError.m; sourceTree = "<group>"; };
 		32DBCF5E0370ADEE00C91783 /* AquaticPrime_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AquaticPrime_Prefix.pch; sourceTree = "<group>"; };
@@ -53,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				306AD45B1222AF9700A3BCDA /* AquaticPrime.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,6 +158,8 @@
 			children = (
 				306AD4491222ADD300A3BCDA /* Test_License.plist */,
 				306AD40A1222ACA400A3BCDA /* UnitTests-Info.plist */,
+				306AD44B1222AE9E00A3BCDA /* LicenseTests.h */,
+				306AD44C1222AE9E00A3BCDA /* LicenseTests.m */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -184,6 +201,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				306AD4581222AF8B00A3BCDA /* PBXTargetDependency */,
 			);
 			name = UnitTests;
 			productName = UnitTests;
@@ -288,6 +306,7 @@
 				306AD40F1222ACBE00A3BCDA /* AquaticPrime.m in Sources */,
 				306AD4101222ACBE00A3BCDA /* AquaticPrimeError.m in Sources */,
 				306AD4111222ACBE00A3BCDA /* AquaticPrimeSigning.m in Sources */,
+				306AD44D1222AE9E00A3BCDA /* LicenseTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,6 +333,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		306AD4581222AF8B00A3BCDA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8DC2EF4F0486A6940098B216 /* AquaticPrime */;
+			targetProxy = 306AD4571222AF8B00A3BCDA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
