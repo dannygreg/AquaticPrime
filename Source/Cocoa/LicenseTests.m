@@ -69,7 +69,7 @@
 {
 	NSMutableDictionary *testDictionary = [NSDictionary dictionaryWithContentsOfURL:[self testFileLocation]];
 	STAssertNotNil(testDictionary, @"Failed to construct dictionary from test license file.");
-	
+
 	[testDictionary removeObjectForKey:@"Signature"];
 	
 	NSString *serial = @"b9e14e4b 5349fbeb b2ca7753 49d12a1a f31bb531 f5453e9a 42f43ea0 35322908 b68db8c6 c161256b 7c2ed853 c77aa0d8 37a7705d 33757b24 4bde6592 488db978 ead5765c fd3066f2 afcb5902 baa5252f 282aec23 54d06b57 ea57bb4f 28a26bf1 ebb3da9e 9fd23c51 ade7150d 78836b92 8462364d 339177fe b3b47df5 1b42c33a";

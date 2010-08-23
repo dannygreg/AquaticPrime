@@ -200,12 +200,14 @@
 	};
 	
 	// Create a dictionary from the data
-	NSMutableDictionary *licenseDict = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListMutableContainersAndLeaves format:NULL error:err];
-	if (![licenseDict isKindOfClass:[NSMutableDictionary class]] || err) 
+	NSDictionary *initialLicenseDict = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:NULL error:err];
+	if (initialLicenseDict == nil) 
 		return nil;
+	
+	NSMutableDictionary *licenseDict = [NSMutableDictionary dictionaryWithDictionary:initialLicenseDict];
 		
 	NSData *signature = [licenseDict objectForKey:@"Signature"];
-	if (!signature) {
+	if (signature == nil) {
 		assignError(AQPErrorForDescriptionWithCode(@"No signature in license file.", -3));
 		return nil;
 	}
