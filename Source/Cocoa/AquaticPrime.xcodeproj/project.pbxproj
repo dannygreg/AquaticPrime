@@ -15,6 +15,10 @@
 		306AD396122287D800A3BCDA /* AquaticPrime+SerialNumberSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 306AD393122287D800A3BCDA /* AquaticPrime+SerialNumberSupport.h */; };
 		306AD397122287D800A3BCDA /* AquaticPrime+SerialNumberSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 306AD394122287D800A3BCDA /* AquaticPrime+SerialNumberSupport.m */; };
 		306AD3B212228F1300A3BCDA /* AquaticPrime+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 306AD3B112228F1300A3BCDA /* AquaticPrime+Private.h */; };
+		306AD40F1222ACBE00A3BCDA /* AquaticPrime.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D12D49B085286600035BA78 /* AquaticPrime.m */; };
+		306AD4101222ACBE00A3BCDA /* AquaticPrimeError.m in Sources */ = {isa = PBXBuildFile; fileRef = 308740B5121EC000001B8345 /* AquaticPrimeError.m */; };
+		306AD4111222ACBE00A3BCDA /* AquaticPrimeSigning.m in Sources */ = {isa = PBXBuildFile; fileRef = 306AD374122283B800A3BCDA /* AquaticPrimeSigning.m */; };
+		306AD44A1222ADD300A3BCDA /* Test_License.plist in Resources */ = {isa = PBXBuildFile; fileRef = 306AD4491222ADD300A3BCDA /* Test_License.plist */; };
 		308740B6121EC000001B8345 /* AquaticPrimeError.m in Sources */ = {isa = PBXBuildFile; fileRef = 308740B5121EC000001B8345 /* AquaticPrimeError.m */; };
 		308740D2121EC326001B8345 /* AquaticPrimeError.m in Sources */ = {isa = PBXBuildFile; fileRef = 308740B5121EC000001B8345 /* AquaticPrimeError.m */; };
 		3D12D49D085286600035BA78 /* AquaticPrime.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D12D49B085286600035BA78 /* AquaticPrime.m */; };
@@ -31,6 +35,9 @@
 		306AD393122287D800A3BCDA /* AquaticPrime+SerialNumberSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AquaticPrime+SerialNumberSupport.h"; sourceTree = "<group>"; };
 		306AD394122287D800A3BCDA /* AquaticPrime+SerialNumberSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AquaticPrime+SerialNumberSupport.m"; sourceTree = "<group>"; };
 		306AD3B112228F1300A3BCDA /* AquaticPrime+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AquaticPrime+Private.h"; sourceTree = "<group>"; };
+		306AD4091222ACA400A3BCDA /* UnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		306AD40A1222ACA400A3BCDA /* UnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
+		306AD4491222ADD300A3BCDA /* Test_License.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Test_License.plist; sourceTree = "<group>"; };
 		308740B4121EC000001B8345 /* AquaticPrimeError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AquaticPrimeError.h; sourceTree = "<group>"; };
 		308740B5121EC000001B8345 /* AquaticPrimeError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AquaticPrimeError.m; sourceTree = "<group>"; };
 		32DBCF5E0370ADEE00C91783 /* AquaticPrime_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AquaticPrime_Prefix.pch; sourceTree = "<group>"; };
@@ -42,6 +49,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		306AD4061222ACA400A3BCDA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3D9B64D5086DCB44006322F1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -65,6 +79,7 @@
 			children = (
 				8DC2EF5B0486A6940098B216 /* AquaticPrime.framework */,
 				3D9B64D7086DCB44006322F1 /* libAquaticPrime.a */,
+				306AD4091222ACA400A3BCDA /* UnitTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -72,6 +87,7 @@
 		0867D691FE84028FC02AAC07 /* AquaticPrime */ = {
 			isa = PBXGroup;
 			children = (
+				306AD4251222AD4D00A3BCDA /* Tests */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				089C1665FE841158C02AAC07 /* Resources */,
@@ -122,6 +138,15 @@
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
 		};
+		306AD4251222AD4D00A3BCDA /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				306AD4491222ADD300A3BCDA /* Test_License.plist */,
+				306AD40A1222ACA400A3BCDA /* UnitTests-Info.plist */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
 		32C88DFF0371C24200C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +172,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		306AD4081222ACA400A3BCDA /* UnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 306AD40E1222ACA500A3BCDA /* Build configuration list for PBXNativeTarget "UnitTests" */;
+			buildPhases = (
+				306AD4041222ACA400A3BCDA /* Resources */,
+				306AD4051222ACA400A3BCDA /* Sources */,
+				306AD4061222ACA400A3BCDA /* Frameworks */,
+				306AD4071222ACA400A3BCDA /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UnitTests;
+			productName = UnitTests;
+			productReference = 306AD4091222ACA400A3BCDA /* UnitTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 		3D9B64D6086DCB44006322F1 /* libAquaticPrime */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3D9B64DC086DCB83006322F1 /* Build configuration list for PBXNativeTarget "libAquaticPrime" */;
@@ -197,11 +240,20 @@
 			targets = (
 				8DC2EF4F0486A6940098B216 /* AquaticPrime */,
 				3D9B64D6086DCB44006322F1 /* libAquaticPrime */,
+				306AD4081222ACA400A3BCDA /* UnitTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		306AD4041222ACA400A3BCDA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				306AD44A1222ADD300A3BCDA /* Test_License.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DC2EF520486A6940098B216 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -212,7 +264,33 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		306AD4071222ACA400A3BCDA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		306AD4051222ACA400A3BCDA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				306AD40F1222ACBE00A3BCDA /* AquaticPrime.m in Sources */,
+				306AD4101222ACBE00A3BCDA /* AquaticPrimeError.m in Sources */,
+				306AD4111222ACBE00A3BCDA /* AquaticPrimeSigning.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3D9B64D4086DCB44006322F1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -249,6 +327,93 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		306AD40B1222ACA500A3BCDA /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				INFOPLIST_FILE = "UnitTests-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Cocoa,
+					"-framework",
+					SenTestingKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = UnitTests;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Development;
+		};
+		306AD40C1222ACA500A3BCDA /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				INFOPLIST_FILE = "UnitTests-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Cocoa,
+					"-framework",
+					SenTestingKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = UnitTests;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		306AD40D1222ACA500A3BCDA /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				INFOPLIST_FILE = "UnitTests-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Cocoa,
+					"-framework",
+					SenTestingKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = UnitTests;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Default;
+		};
 		3D9364630856794A006F1864 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -509,6 +674,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		306AD40E1222ACA500A3BCDA /* Build configuration list for PBXNativeTarget "UnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				306AD40B1222ACA500A3BCDA /* Development */,
+				306AD40C1222ACA500A3BCDA /* Deployment */,
+				306AD40D1222ACA500A3BCDA /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
 		3D9364620856794A006F1864 /* Build configuration list for PBXNativeTarget "AquaticPrime" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
