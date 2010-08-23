@@ -31,6 +31,6 @@
 @interface AquaticPrime (SerialNumberSupport)
 
 - (NSString *)serialNumberForDictionary:(NSDictionary *)dict error:(NSError **)err;
-- (BOOL)verifySerial:(NSString *)serial forDictionary:(NSDictionary *)dict;
+- (BOOL)verifySerial:(NSString *)serial forDictionary:(NSDictionary *)dict error:(NSError **)err;
 
 @end

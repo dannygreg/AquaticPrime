@@ -29,6 +29,9 @@
 #import "AquaticPrime+Private.h"
 #import "AquaticPrimeSigning.h"
 
+#import <openssl/ssl.h>
+#import <openssl/hmac.h>
+
 @implementation AquaticPrime (SerialNumberSupport)
 
 - (NSString *)serialNumberForDictionary:(NSDictionary *)dict error:(NSError **)err
@@ -37,12 +40,48 @@
 	if (signatureData == nil)
 		return nil;
 	
+	BIO *mem = BIO_new(BIO_s_mem());
+	BIO *b64 = BIO_new(BIO_f_base64());
+	BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL); 
+	mem = BIO_push(b64, mem);
 	
+	CFRetain(self); // Note: begin interior pointer access
+	BIO_write(mem, [signatureData bytes], [signatureData length]);
+	CFRelease(self); // Note: end interior pointer access
+	
+    (void)BIO_flush(mem);
+	
+	char *base64Pointer;
+    long base64Length = BIO_get_mem_data(mem, &base64Pointer);
+	
+	NSString *base64String = [[[NSString alloc] initWithBytes:base64Pointer length:base64Length encoding:NSUTF8StringEncoding] autorelease];
+	
+	BIO_free_all(mem);
+	
+	return base64String;
 }
 
-- (BOOL)verifySerial:(NSString *)serial forDictionary:(NSDictionary *)dict
+- (BOOL)verifySerial:(NSString *)serial forDictionary:(NSDictionary *)dict error:(NSError **)err
 {
+	NSData *initialSerialData = [serial dataUsingEncoding:NSUTF8StringEncoding];
+    BIO *command = BIO_new(BIO_f_base64());
+    BIO *context = BIO_new_mem_buf((void *)[initialSerialData bytes], [initialSerialData length]);
 	
+    // Tell the context to encode base64
+    context = BIO_push(command, context);
+	
+    // Encode all the data
+    NSMutableData *serialData = [NSMutableData data];
+    
+#define BUFFSIZE 256
+    int len = 0;
+    char inbuf[BUFFSIZE];
+    while ((len = BIO_read(context, inbuf, BUFFSIZE)) > 0)
+        [serialData appendBytes:inbuf length:len];
+	
+    BIO_free_all(context);
+	
+	return [self verifySignature:serialData forDictionary:dict error:err];
 }
 
 @end

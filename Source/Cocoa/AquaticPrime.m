@@ -209,13 +209,30 @@
 		assignError(AQPErrorForDescriptionWithCode(@"No signature in license file.", -3));
 		return nil;
 	}
-		
+	
+	// Remove the signature element
+	[licenseDict removeObjectForKey:@"Signature"];
+	
+	if (![self verifySignature:signature forDictionary:licenseDict error:err])
+		return nil;
+	
+	return [NSDictionary dictionaryWithDictionary:licenseDict];
+}
+
+#pragma mark -
+
+- (BOOL)verifySignature:(NSData *)signature forDictionary:(NSDictionary *)licenseDict error:(NSError **)err
+{
+	void (^assignError)(NSError *) = ^ (NSError *newError) {
+		if (err != NULL)
+			*err = newError;
+	};
 	
 	// Decrypt the signature - should get 20 bytes back
 	unsigned char checkDigest[20];
 	if (RSA_public_decrypt([signature length], [signature bytes], checkDigest, self.rsaKey, RSA_PKCS1_PADDING) != 20) {
 		assignError(AQPErrorForDescriptionWithCode(@"Invalid license signature.", -4));
-		return nil;
+		return NO;
 	}
 	
 	// Make sure the license hash isn't on the blacklist
@@ -229,11 +246,8 @@
 	
 	if (self.blacklist && [self.blacklist containsObject:hashCheck]) {
 		assignError(AQPErrorForDescriptionWithCode(@"This license has been blacklisted.", -5));
-		return nil;
+		return NO;
 	}
-	
-	// Remove the signature element
-	[licenseDict removeObjectForKey:@"Signature"];
 	
 	// Grab all values from the dictionary
 	NSMutableArray *keyArray = [NSMutableArray arrayWithArray:[licenseDict allKeys]];
@@ -260,11 +274,11 @@
 	for (checkIndex = 0; checkIndex < 20; checkIndex++) {
 		if (checkDigest[checkIndex] ^ digest[checkIndex]) {
 			assignError(AQPErrorForDescriptionWithCode(@"Invalid license signature.", -5));
-			return nil;
+			return NO;
 		}
 	}
 	
-	return [NSDictionary dictionaryWithDictionary:licenseDict];
+	return YES;
 }
 
 @end

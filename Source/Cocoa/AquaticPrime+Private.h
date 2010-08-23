@@ -32,4 +32,6 @@
 
 @property (nonatomic, assign) RSA *rsaKey;
 
+- (BOOL)verifySignature:(NSData *)signature forDictionary:(NSDictionary *)licenseDict error:(NSError **)err;
+
 @end
