@@ -3717,6 +3717,7 @@
 					<string>259.ImportedFromIB2</string>
 					<string>260.IBPluginDependency</string>
 					<string>260.ImportedFromIB2</string>
+					<string>261.CustomClassName</string>
 					<string>261.IBPluginDependency</string>
 					<string>261.ImportedFromIB2</string>
 					<string>262.IBPluginDependency</string>
@@ -4009,6 +4010,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
+					<string>AQTableView</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4725,14 +4727,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">OAGradientTableView</string>
-					<string key="superclassName">AQTableView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Classes/AQAppKit/OAGradientTableView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
