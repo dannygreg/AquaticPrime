@@ -12,7 +12,6 @@
 		3D12D14B085206240035BA78 /* add.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3D12D14A085206240035BA78 /* add.tiff */; };
 		3D12D159085208CC0035BA78 /* StatusController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D12D158085208CC0035BA78 /* StatusController.m */; };
 		3D12D1C008520D0E0035BA78 /* ProductController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D12D1BF08520D0E0035BA78 /* ProductController.m */; };
-		3D160600089D3DBC00526ED8 /* OAGradientTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D1605FE089D3DBC00526ED8 /* OAGradientTableView.m */; };
 		3D1606A4089D41C100526ED8 /* AQTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D1606A2089D41C100526ED8 /* AQTextFieldCell.m */; };
 		3D4458EB08971CEC002901EB /* aquatic.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3D4458EA08971CEC002901EB /* aquatic.icns */; };
 		3D9364030856724F006F1864 /* LicenseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9364020856724F006F1864 /* LicenseController.m */; };
@@ -39,7 +38,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 307C940012226E1C00D8BC5A /* AquaticPrime.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* AquaticPrime */;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = AquaticPrime;
 		};
 		307C940512226E1C00D8BC5A /* PBXContainerItemProxy */ = {
@@ -83,8 +82,6 @@
 		3D12D158085208CC0035BA78 /* StatusController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = StatusController.m; sourceTree = "<group>"; };
 		3D12D1BE08520D0E0035BA78 /* ProductController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ProductController.h; sourceTree = "<group>"; };
 		3D12D1BF08520D0E0035BA78 /* ProductController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ProductController.m; sourceTree = "<group>"; };
-		3D1605FE089D3DBC00526ED8 /* OAGradientTableView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = OAGradientTableView.m; sourceTree = "<group>"; };
-		3D1605FF089D3DBC00526ED8 /* OAGradientTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OAGradientTableView.h; sourceTree = "<group>"; };
 		3D1606A2089D41C100526ED8 /* AQTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AQTextFieldCell.m; sourceTree = "<group>"; };
 		3D1606A3089D41C100526ED8 /* AQTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AQTextFieldCell.h; sourceTree = "<group>"; };
 		3D4458EA08971CEC002901EB /* aquatic.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = aquatic.icns; path = Images/aquatic.icns; sourceTree = "<group>"; };
@@ -301,8 +298,6 @@
 			children = (
 				3D1606A3089D41C100526ED8 /* AQTextFieldCell.h */,
 				3D1606A2089D41C100526ED8 /* AQTextFieldCell.m */,
-				3D1605FF089D3DBC00526ED8 /* OAGradientTableView.h */,
-				3D1605FE089D3DBC00526ED8 /* OAGradientTableView.m */,
 				3DD108BD088170A100C4C6B4 /* AQTableView.h */,
 				3DD108BE088170A100C4C6B4 /* AQTableView.m */,
 			);
@@ -416,7 +411,6 @@
 				3DD108C2088170A100C4C6B4 /* AQAboutWindow.m in Sources */,
 				3DD108C4088170A100C4C6B4 /* AQTableView.m in Sources */,
 				3DD108F80881726E00C4C6B4 /* AboutController.m in Sources */,
-				3D160600089D3DBC00526ED8 /* OAGradientTableView.m in Sources */,
 				3D1606A4089D41C100526ED8 /* AQTextFieldCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
