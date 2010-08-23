@@ -28,8 +28,9 @@
 #import "KeyController.h"
 #import "StatusController.h"
 #import "ProductController.h"
-#import "AquaticPrime.h"
 #import "AQTableView.h"
+
+#import <AquaticPrime/AquaticPrime.h>
 
 @implementation LicenseController
 

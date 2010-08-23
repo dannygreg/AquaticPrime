@@ -26,7 +26,8 @@
 
 #import "InfoController.h"
 #import "KeyController.h"
-#import "AquaticPrime.h"
+
+#import <AquaticPrime/AquaticPrime.h>
 
 @implementation InfoController
 
