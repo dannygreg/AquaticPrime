@@ -65,7 +65,7 @@ static KeyController *sharedInstance = nil;
 
 + (KeyController *)sharedInstance
 {
-    return sharedInstance ? sharedInstance : [[self alloc] init];
+    return sharedInstance ? sharedInstance : [[[self alloc] init] autorelease];
 }
 
 #pragma mark Getting Keys
