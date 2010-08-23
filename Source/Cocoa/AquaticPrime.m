@@ -53,7 +53,7 @@
 
 @interface AquaticPrime ()
 
-@property (nonatomic, retain) RSA *rsaKey;
+@property (nonatomic, assign) RSA *rsaKey;
 
 @end
 
