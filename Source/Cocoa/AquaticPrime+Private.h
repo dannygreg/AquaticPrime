@@ -24,25 +24,12 @@
 // IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
 // OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import "AquaticPrime+SerialNumberSupport.h"
+#import "AquaticPrime.h"
 
-#import "AquaticPrime+Private.h"
-#import "AquaticPrimeSigning.h"
+#include <openssl/rsa.h>
 
-@implementation AquaticPrime (SerialNumberSupport)
+@interface AquaticPrime ()
 
-- (NSString *)serialNumberForDictionary:(NSDictionary *)dict error:(NSError **)err
-{
-	NSData *signatureData = AQPSignatureForDictionaryWithKey(dict, self.rsaKey, err);
-	if (signatureData == nil)
-		return nil;
-	
-	
-}
-
-- (BOOL)verifySerial:(NSString *)serial forDictionary:(NSDictionary *)dict
-{
-	
-}
+@property (nonatomic, assign) RSA *rsaKey;
 
 @end

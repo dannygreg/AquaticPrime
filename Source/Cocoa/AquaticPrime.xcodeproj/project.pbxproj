@@ -14,6 +14,7 @@
 		306AD395122287D800A3BCDA /* AquaticPrime+SerialNumberSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 306AD394122287D800A3BCDA /* AquaticPrime+SerialNumberSupport.m */; };
 		306AD396122287D800A3BCDA /* AquaticPrime+SerialNumberSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 306AD393122287D800A3BCDA /* AquaticPrime+SerialNumberSupport.h */; };
 		306AD397122287D800A3BCDA /* AquaticPrime+SerialNumberSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 306AD394122287D800A3BCDA /* AquaticPrime+SerialNumberSupport.m */; };
+		306AD3B212228F1300A3BCDA /* AquaticPrime+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 306AD3B112228F1300A3BCDA /* AquaticPrime+Private.h */; };
 		308740B6121EC000001B8345 /* AquaticPrimeError.m in Sources */ = {isa = PBXBuildFile; fileRef = 308740B5121EC000001B8345 /* AquaticPrimeError.m */; };
 		308740D2121EC326001B8345 /* AquaticPrimeError.m in Sources */ = {isa = PBXBuildFile; fileRef = 308740B5121EC000001B8345 /* AquaticPrimeError.m */; };
 		3D12D49D085286600035BA78 /* AquaticPrime.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D12D49B085286600035BA78 /* AquaticPrime.m */; };
@@ -29,6 +30,7 @@
 		306AD374122283B800A3BCDA /* AquaticPrimeSigning.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AquaticPrimeSigning.m; sourceTree = "<group>"; };
 		306AD393122287D800A3BCDA /* AquaticPrime+SerialNumberSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AquaticPrime+SerialNumberSupport.h"; sourceTree = "<group>"; };
 		306AD394122287D800A3BCDA /* AquaticPrime+SerialNumberSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AquaticPrime+SerialNumberSupport.m"; sourceTree = "<group>"; };
+		306AD3B112228F1300A3BCDA /* AquaticPrime+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AquaticPrime+Private.h"; sourceTree = "<group>"; };
 		308740B4121EC000001B8345 /* AquaticPrimeError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AquaticPrimeError.h; sourceTree = "<group>"; };
 		308740B5121EC000001B8345 /* AquaticPrimeError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AquaticPrimeError.m; sourceTree = "<group>"; };
 		32DBCF5E0370ADEE00C91783 /* AquaticPrime_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AquaticPrime_Prefix.pch; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				3D12D49A085286600035BA78 /* AquaticPrime.h */,
+				306AD3B112228F1300A3BCDA /* AquaticPrime+Private.h */,
 				3D12D49B085286600035BA78 /* AquaticPrime.m */,
 				306AD393122287D800A3BCDA /* AquaticPrime+SerialNumberSupport.h */,
 				306AD394122287D800A3BCDA /* AquaticPrime+SerialNumberSupport.m */,
@@ -137,6 +140,7 @@
 				305304AD122270C90006EDE9 /* AquaticPrime.h in Headers */,
 				306AD376122283B800A3BCDA /* AquaticPrimeSigning.h in Headers */,
 				306AD396122287D800A3BCDA /* AquaticPrime+SerialNumberSupport.h in Headers */,
+				306AD3B212228F1300A3BCDA /* AquaticPrime+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

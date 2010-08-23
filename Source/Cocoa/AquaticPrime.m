@@ -27,11 +27,11 @@
 //***************************************************************************
 
 #import "AquaticPrime.h"
+#import "AquaticPrime+Private.h"
 
 #import "AquaticPrimeError.h"
 #import "AquaticPrimeSigning.h"
 
-#include <openssl/rsa.h>
 #include <openssl/sha.h>
 #include <openssl/err.h>
 
@@ -50,14 +50,6 @@
 #endif
 
 #define AQPErrorForDescriptionWithCode(description, errorCode) [NSError errorWithDomain:AQPErrorDomain code:errorCode userInfo:[NSDictionary dictionaryWithObject:AQPLocalisedString(description) forKey:NSLocalizedDescriptionKey]]
-
-//***************************************************************************
-
-@interface AquaticPrime ()
-
-@property (nonatomic, assign) RSA *rsaKey;
-
-@end
 
 //***************************************************************************
 
