@@ -46,6 +46,19 @@
 	STAssertTrue(result, @"Could not set public key on validator: %@", err);
 }
 
+- (void)testLicenseFileRead
+{
+	NSURL *testFileLocation = [[NSBundle bundleForClass:[self class]] URLForResource:@"Test_License" withExtension:@"plist"];
+	STAssertNotNil(testFileLocation, @"Could not determine location of the test license file.");
+	
+	NSData *licenseFileData = [NSData dataWithContentsOfURL:testFileLocation];
+	STAssertNotNil(licenseFileData, @"Could not read license file.");
+	
+	NSError *err = nil;
+	NSDictionary *licenseDictionary = [self.validator verifiedDictionaryForLicenseFileData:licenseFileData error:&err];
+	STAssertNotNil(licenseDictionary, @"Failed to verify a valid license file, giving error: %@", err);
+}
+
 - (void)tearDown
 {
 	[_validator release], _validator = nil;
