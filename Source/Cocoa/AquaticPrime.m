@@ -161,7 +161,7 @@
 
 #pragma mark Signing
 
-- (NSData *)licenseDataForDictionary:(NSDictionary*)dict error:(NSError **)err
+- (NSData *)licenseFileDataForDictionary:(NSDictionary*)dict error:(NSError **)err
 {	
 	// Make sure we have a good key
 	NSAssert(self.rsaKey != nil, @"Attempted to retrieve license data without first setting a key.");
@@ -224,7 +224,7 @@
 	return licenseFile;
 }
 
-- (NSDictionary *)verifiedDictionaryForLicenseData:(NSData *)data error:(NSError **)err
+- (NSDictionary *)verifiedDictionaryForLicenseFileData:(NSData *)data error:(NSError **)err
 {	
 	NSAssert(self.rsaKey != nil, @"Tried to parse license data before setting a key.");
 	NSAssert(self.rsaKey->n, @"Invalid key.");

@@ -42,10 +42,10 @@
 
 - (BOOL)setKey:(NSString *)key withPrivateKey:(NSString *)privateKey error:(NSError **)err;
 
-// Generating license data/files
-- (NSData *)licenseDataForDictionary:(NSDictionary*)dict error:(NSError **)err;
+// Generating license data/filesg
+- (NSData *)licenseFileDataForDictionary:(NSDictionary*)dict error:(NSError **)err;
 
 // Validating license data/files
-- (NSDictionary *)verifiedDictionaryForLicenseData:(NSData *)data error:(NSError **)err;
+- (NSDictionary *)verifiedDictionaryForLicenseFileData:(NSData *)data error:(NSError **)err;
 
 @end
