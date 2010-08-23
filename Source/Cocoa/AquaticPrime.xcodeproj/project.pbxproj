@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		305304AD122270C90006EDE9 /* AquaticPrime.h in Headers */ = {isa = PBXBuildFile; fileRef = 3D12D49A085286600035BA78 /* AquaticPrime.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		306AD375122283B800A3BCDA /* AquaticPrimeSigning.m in Sources */ = {isa = PBXBuildFile; fileRef = 306AD374122283B800A3BCDA /* AquaticPrimeSigning.m */; };
+		306AD376122283B800A3BCDA /* AquaticPrimeSigning.h in Headers */ = {isa = PBXBuildFile; fileRef = 306AD373122283B800A3BCDA /* AquaticPrimeSigning.h */; };
+		306AD377122283B800A3BCDA /* AquaticPrimeSigning.m in Sources */ = {isa = PBXBuildFile; fileRef = 306AD374122283B800A3BCDA /* AquaticPrimeSigning.m */; };
 		308740B6121EC000001B8345 /* AquaticPrimeError.m in Sources */ = {isa = PBXBuildFile; fileRef = 308740B5121EC000001B8345 /* AquaticPrimeError.m */; };
 		308740D2121EC326001B8345 /* AquaticPrimeError.m in Sources */ = {isa = PBXBuildFile; fileRef = 308740B5121EC000001B8345 /* AquaticPrimeError.m */; };
 		3D12D49D085286600035BA78 /* AquaticPrime.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D12D49B085286600035BA78 /* AquaticPrime.m */; };
@@ -19,6 +22,8 @@
 /* Begin PBXFileReference section */
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		306AD373122283B800A3BCDA /* AquaticPrimeSigning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AquaticPrimeSigning.h; sourceTree = "<group>"; };
+		306AD374122283B800A3BCDA /* AquaticPrimeSigning.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AquaticPrimeSigning.m; sourceTree = "<group>"; };
 		308740B4121EC000001B8345 /* AquaticPrimeError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AquaticPrimeError.h; sourceTree = "<group>"; };
 		308740B5121EC000001B8345 /* AquaticPrimeError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AquaticPrimeError.m; sourceTree = "<group>"; };
 		32DBCF5E0370ADEE00C91783 /* AquaticPrime_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AquaticPrime_Prefix.pch; sourceTree = "<group>"; };
@@ -93,6 +98,8 @@
 				3D12D49B085286600035BA78 /* AquaticPrime.m */,
 				308740B4121EC000001B8345 /* AquaticPrimeError.h */,
 				308740B5121EC000001B8345 /* AquaticPrimeError.m */,
+				306AD373122283B800A3BCDA /* AquaticPrimeSigning.h */,
+				306AD374122283B800A3BCDA /* AquaticPrimeSigning.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -121,6 +128,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				305304AD122270C90006EDE9 /* AquaticPrime.h in Headers */,
+				306AD376122283B800A3BCDA /* AquaticPrimeSigning.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,6 +207,7 @@
 			files = (
 				3D9B64DB086DCB77006322F1 /* AquaticPrime.m in Sources */,
 				308740B6121EC000001B8345 /* AquaticPrimeError.m in Sources */,
+				306AD375122283B800A3BCDA /* AquaticPrimeSigning.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,6 +217,7 @@
 			files = (
 				3D12D49D085286600035BA78 /* AquaticPrime.m in Sources */,
 				308740D2121EC326001B8345 /* AquaticPrimeError.m in Sources */,
+				306AD377122283B800A3BCDA /* AquaticPrimeSigning.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

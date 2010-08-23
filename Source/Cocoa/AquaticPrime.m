@@ -27,7 +27,9 @@
 //***************************************************************************
 
 #import "AquaticPrime.h"
+
 #import "AquaticPrimeError.h"
+#import "AquaticPrimeSigning.h"
 
 #include <openssl/rsa.h>
 #include <openssl/sha.h>
@@ -166,7 +168,6 @@
 	// Make sure we have a good key
 	NSAssert(self.rsaKey != nil, @"Attempted to retrieve license data without first setting a key.");
 	
-	//TODO: Localise this error
 	if (!self.rsaKey->n || !self.rsaKey->d) {
 		if (err != NULL)
 			*err = [NSError errorWithDomain:AQPErrorDomain code:-1 userInfo:[NSDictionary dictionaryWithObject:AQPLocalisedString(@"Invalid key.") forKey:NSLocalizedDescriptionKey]];
@@ -190,24 +191,12 @@
 		[dictData appendBytes:desc length:strlen(desc)];
 	}
 	
-	// Hash the data
-	unsigned char digest[20];
-	SHA1([dictData bytes], [dictData length], digest);
-	
-	// Create the signature from 20 byte hash
-	int rsaLength = RSA_size(self.rsaKey);
-	unsigned char *signature = (unsigned char*)malloc(rsaLength);
-	int bytes = RSA_private_encrypt(20, digest, signature, self.rsaKey, RSA_PKCS1_PADDING);
-	
-	if (bytes == -1) {
-		if (err != NULL)
-			*err = AQPErrorForERRError(ERR_get_error());
+	NSData *signatureData = AQPSignatureForDataWithKey(dictData, self.rsaKey, err);
+	if (signatureData == nil)
 		return nil;
-	}
 	
-	// Create the license dictionary
 	NSMutableDictionary *licenseDict = [NSMutableDictionary dictionaryWithDictionary:dict];
-	[licenseDict setObject:[NSData dataWithBytes:signature length:bytes]  forKey:@"Signature"];
+	[licenseDict setObject:signatureData forKey:@"Signature"];
 	
 	// Create the data from the dictionary
 	NSString *error = nil;
