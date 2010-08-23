@@ -114,17 +114,24 @@
 		[publicKeyString replaceOccurrencesOfString:@"<" withString:@"" options:nil range:NSMakeRange(0, [publicKeyString length])];
 		[publicKeyString replaceOccurrencesOfString:@">" withString:@"" options:nil range:NSMakeRange(0, [publicKeyString length])];
 		
-		AquaticPrime *licenseChecker = [AquaticPrime aquaticPrimeWithKey:[NSString stringWithFormat:@"0x%@", publicKeyString]];
-		licenseDictionary = [licenseChecker dictionaryForLicenseFile:licensePath];
+		NSData *licenseData = [NSData dataWithContentsOfFile:licensePath];
 		
-		if (licenseDictionary) {
-			keyInfoArray = [[licenseDictionary allKeys] retain];
-			valueInfoArray = [[licenseDictionary allValues] retain];
-			hash = (NSString *)[licenseChecker hash];
-			isLicenseValid = YES;
-			licenseValidForProduct = [currentProduct retain];
-			return YES;
+		AquaticPrime *licenseChecker = [[[AquaticPrime alloc] init] autorelease];
+		NSError *err = nil;
+		licenseDictionary = [licenseDictionary verifiedDictionaryForLicenseData:licenseData	error:&err];
+		
+		if (licenseDictionary == nil) {
+			NSLog(@"Error creating dictionary from license data: %@", err);
+			continue;
 		}
+		
+		keyInfoArray = [[licenseDictionary allKeys] retain];
+		valueInfoArray = [[licenseDictionary allValues] retain];
+		hash = (NSString *)[licenseChecker hash];
+		isLicenseValid = YES;
+		licenseValidForProduct = [currentProduct retain];
+		return YES;
+		
 	}
 	
 	// At this point, the license is invalid, but we show the key-value pairs anyway
