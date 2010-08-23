@@ -30,7 +30,7 @@
 
 @interface AquaticPrime (SerialNumberSupport)
 
-- (NSString *)serialNumberForDictionary:(NSDictionary *)dict;
+- (NSString *)serialNumberForDictionary:(NSDictionary *)dict error:(NSError **)err;
 - (BOOL)verifySerial:(NSString *)serial forDictionary:(NSDictionary *)dict;
 
 @end
