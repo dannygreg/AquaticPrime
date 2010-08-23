@@ -119,7 +119,7 @@
 		
 		AquaticPrime *licenseChecker = [[[AquaticPrime alloc] init] autorelease];
 		NSError *err = nil;
-		licenseDictionary = [licenseChecker verifiedDictionaryForLicenseData:licenseData	error:&err];
+		licenseDictionary = [licenseChecker verifiedDictionaryForLicenseFileData:licenseData error:&err];
 		
 		if (licenseDictionary == nil) {
 			NSLog(@"Error creating dictionary from license data: %@", err);

@@ -114,7 +114,7 @@
 	NSString *path = [NSString stringWithFormat:@"%@/%@.%@", [saveDirectoryField stringValue], [valueArray objectAtIndex:0], [licenseExtensionField stringValue]];
 	NSString *backupPath = [NSString stringWithFormat:@"%@/%@.%@", licenseDir, [valueArray objectAtIndex:0], [licenseExtensionField stringValue]];
 	
-	NSData *licenseData = [licenseMaker licenseDataForDictionary:licenseDict error:&err];
+	NSData *licenseData = [licenseMaker licenseFileDataForDictionary:licenseDict error:&err];
 	if (licenseData == nil) {
 		NSLog(@"Could not generate license data for dictionary. Error: %@", err);
 		return;

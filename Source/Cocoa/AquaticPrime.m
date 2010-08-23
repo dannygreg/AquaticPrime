@@ -27,9 +27,11 @@
 //***************************************************************************
 
 #import "AquaticPrime.h"
-#import "AquaticPrimeError.h"
+#import "AquaticPrime+Private.h"
 
-#include <openssl/rsa.h>
+#import "AquaticPrimeError.h"
+#import "AquaticPrimeSigning.h"
+
 #include <openssl/sha.h>
 #include <openssl/err.h>
 
@@ -48,14 +50,6 @@
 #endif
 
 #define AQPErrorForDescriptionWithCode(description, errorCode) [NSError errorWithDomain:AQPErrorDomain code:errorCode userInfo:[NSDictionary dictionaryWithObject:AQPLocalisedString(description) forKey:NSLocalizedDescriptionKey]]
-
-//***************************************************************************
-
-@interface AquaticPrime ()
-
-@property (nonatomic, assign) RSA *rsaKey;
-
-@end
 
 //***************************************************************************
 
@@ -161,12 +155,11 @@
 
 #pragma mark Signing
 
-- (NSData *)licenseDataForDictionary:(NSDictionary*)dict error:(NSError **)err
+- (NSData *)licenseFileDataForDictionary:(NSDictionary*)dict error:(NSError **)err
 {	
 	// Make sure we have a good key
 	NSAssert(self.rsaKey != nil, @"Attempted to retrieve license data without first setting a key.");
 	
-	//TODO: Localise this error
 	if (!self.rsaKey->n || !self.rsaKey->d) {
 		if (err != NULL)
 			*err = [NSError errorWithDomain:AQPErrorDomain code:-1 userInfo:[NSDictionary dictionaryWithObject:AQPLocalisedString(@"Invalid key.") forKey:NSLocalizedDescriptionKey]];
@@ -174,40 +167,12 @@
 		return nil;
 	}
 	
-	// Grab all values from the dictionary
-	NSMutableArray *keyArray = [NSMutableArray arrayWithArray:[dict allKeys]];
-	NSMutableData *dictData = [NSMutableData data];
-	
-	// Sort the keys so we always have a uniform order
-	[keyArray sortUsingSelector:@selector(caseInsensitiveCompare:)];
-	
-	int i;
-	for (i = 0; i < [keyArray count]; i++)
-	{
-		id curValue = [dict objectForKey:[keyArray objectAtIndex:i]];
-		char *desc = (char *)[[curValue description] UTF8String];
-		// We use strlen instead of [string length] so we can get all the bytes of accented characters
-		[dictData appendBytes:desc length:strlen(desc)];
-	}
-	
-	// Hash the data
-	unsigned char digest[20];
-	SHA1([dictData bytes], [dictData length], digest);
-	
-	// Create the signature from 20 byte hash
-	int rsaLength = RSA_size(self.rsaKey);
-	unsigned char *signature = (unsigned char*)malloc(rsaLength);
-	int bytes = RSA_private_encrypt(20, digest, signature, self.rsaKey, RSA_PKCS1_PADDING);
-	
-	if (bytes == -1) {
-		if (err != NULL)
-			*err = AQPErrorForERRError(ERR_get_error());
+	NSData *signatureData = AQPSignatureForDictionaryWithKey(dict, self.rsaKey, err);
+	if (signatureData == nil)
 		return nil;
-	}
 	
-	// Create the license dictionary
 	NSMutableDictionary *licenseDict = [NSMutableDictionary dictionaryWithDictionary:dict];
-	[licenseDict setObject:[NSData dataWithBytes:signature length:bytes]  forKey:@"Signature"];
+	[licenseDict setObject:signatureData forKey:@"Signature"];
 	
 	// Create the data from the dictionary
 	NSString *error = nil;
@@ -224,7 +189,7 @@
 	return licenseFile;
 }
 
-- (NSDictionary *)verifiedDictionaryForLicenseData:(NSData *)data error:(NSError **)err
+- (NSDictionary *)verifiedDictionaryForLicenseFileData:(NSData *)data error:(NSError **)err
 {	
 	NSAssert(self.rsaKey != nil, @"Tried to parse license data before setting a key.");
 	NSAssert(self.rsaKey->n, @"Invalid key.");
@@ -244,13 +209,30 @@
 		assignError(AQPErrorForDescriptionWithCode(@"No signature in license file.", -3));
 		return nil;
 	}
-		
+	
+	// Remove the signature element
+	[licenseDict removeObjectForKey:@"Signature"];
+	
+	if (![self verifySignature:signature forDictionary:licenseDict error:err])
+		return nil;
+	
+	return [NSDictionary dictionaryWithDictionary:licenseDict];
+}
+
+#pragma mark -
+
+- (BOOL)verifySignature:(NSData *)signature forDictionary:(NSDictionary *)licenseDict error:(NSError **)err
+{
+	void (^assignError)(NSError *) = ^ (NSError *newError) {
+		if (err != NULL)
+			*err = newError;
+	};
 	
 	// Decrypt the signature - should get 20 bytes back
 	unsigned char checkDigest[20];
 	if (RSA_public_decrypt([signature length], [signature bytes], checkDigest, self.rsaKey, RSA_PKCS1_PADDING) != 20) {
 		assignError(AQPErrorForDescriptionWithCode(@"Invalid license signature.", -4));
-		return nil;
+		return NO;
 	}
 	
 	// Make sure the license hash isn't on the blacklist
@@ -264,11 +246,8 @@
 	
 	if (self.blacklist && [self.blacklist containsObject:hashCheck]) {
 		assignError(AQPErrorForDescriptionWithCode(@"This license has been blacklisted.", -5));
-		return nil;
+		return NO;
 	}
-	
-	// Remove the signature element
-	[licenseDict removeObjectForKey:@"Signature"];
 	
 	// Grab all values from the dictionary
 	NSMutableArray *keyArray = [NSMutableArray arrayWithArray:[licenseDict allKeys]];
@@ -295,11 +274,11 @@
 	for (checkIndex = 0; checkIndex < 20; checkIndex++) {
 		if (checkDigest[checkIndex] ^ digest[checkIndex]) {
 			assignError(AQPErrorForDescriptionWithCode(@"Invalid license signature.", -5));
-			return nil;
+			return NO;
 		}
 	}
 	
-	return [NSDictionary dictionaryWithDictionary:licenseDict];
+	return YES;
 }
 
 @end

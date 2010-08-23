@@ -7,12 +7,12 @@
 //
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
-//	¥Redistributions of source code must retain the above copyright notice,
+//	â€¢Redistributions of source code must retain the above copyright notice,
 //	 this list of conditions and the following disclaimer.
-//	¥Redistributions in binary form must reproduce the above copyright notice,
+//	â€¢Redistributions in binary form must reproduce the above copyright notice,
 //	 this list of conditions and the following disclaimer in the documentation and/or
 //	 other materials provided with the distribution.
-//	¥Neither the name of Aquatic nor the names of its contributors may be used to 
+//	â€¢Neither the name of Aquatic nor the names of its contributors may be used to 
 //	 endorse or promote products derived from this software without specific prior written permission.
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
@@ -24,28 +24,13 @@
 // IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
 // OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-//***************************************************************************
-
 #import <Cocoa/Cocoa.h>
 
-//***************************************************************************
+#import "AquaticPrime.h"
 
-@interface AquaticPrime : NSObject
+@interface AquaticPrime (SerialNumberSupport)
 
-@property (nonatomic, copy) NSString *hash;
-@property (nonatomic, copy) NSArray *blacklist;
-
-@property (nonatomic, readonly) NSString *key;
-@property (nonatomic, readonly) NSString *privateKey;
-
-- (id)init; //Designated Initialiser
-
-- (BOOL)setKey:(NSString *)key withPrivateKey:(NSString *)privateKey error:(NSError **)err;
-
-// Generating license data/filesg
-- (NSData *)licenseFileDataForDictionary:(NSDictionary*)dict error:(NSError **)err;
-
-// Validating license data/files
-- (NSDictionary *)verifiedDictionaryForLicenseFileData:(NSData *)data error:(NSError **)err;
+- (NSString *)serialNumberForDictionary:(NSDictionary *)dict error:(NSError **)err;
+- (BOOL)verifySerial:(NSString *)serial forDictionary:(NSDictionary *)dict error:(NSError **)err;
 
 @end
