@@ -28,8 +28,9 @@
 #import "KeyController.h"
 #import "StatusController.h"
 #import "ProductController.h"
-#import "AquaticPrime.h"
 #import "AQTableView.h"
+
+#import <AquaticPrime/AquaticPrime.h>
 
 @implementation LicenseController
 
@@ -102,12 +103,26 @@
 	if (!publicKey || !privateKey)
 		return;
 	
-	licenseMaker = [AquaticPrime aquaticPrimeWithKey:publicKey privateKey:privateKey];
+	licenseMaker = [[[AquaticPrime alloc] init] autorelease];
+	
+	NSError *err = nil;
+	if (![licenseMaker setKey:publicKey withPrivateKey:privateKey error:&err]) {
+		NSLog(@"Could not initialise Aquatic Prime: %@", err);
+		return;
+	}
 	
 	NSString *path = [NSString stringWithFormat:@"%@/%@.%@", [saveDirectoryField stringValue], [valueArray objectAtIndex:0], [licenseExtensionField stringValue]];
 	NSString *backupPath = [NSString stringWithFormat:@"%@/%@.%@", licenseDir, [valueArray objectAtIndex:0], [licenseExtensionField stringValue]];
-	[licenseMaker writeLicenseFileForDictionary:licenseDict toPath:path];
-	[licenseMaker writeLicenseFileForDictionary:licenseDict toPath:backupPath];
+	
+	NSData *licenseData = [licenseMaker licenseDataForDictionary:licenseDict error:&err];
+	if (licenseData == nil) {
+		NSLog(@"Could not generate license data for dictionary. Error: %@", err);
+		return;
+	}
+	
+	[licenseData writeToFile:path atomically:YES];
+	[licenseData writeToFile:backupPath atomically:YES];
+	
 	[statusController setStatus:[NSString stringWithFormat:@"Wrote license to %@", path] duration:2.5];
 }
  

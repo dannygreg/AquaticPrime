@@ -140,7 +140,7 @@
 	
 	char *cString = BN_bn2hex(self.rsaKey->n);
 	
-	NSString *nString = [[NSString alloc] initWithUTF8String:cString];
+	NSString *nString = [[[NSString alloc] initWithUTF8String:cString] autorelease];
 	OPENSSL_free(cString);
 	
 	return nString;
@@ -153,7 +153,7 @@
 	
 	char *cString = BN_bn2hex(self.rsaKey->d);
 	
-	NSString *dString = [[NSString alloc] initWithUTF8String:cString];
+	NSString *dString = [[[NSString alloc] initWithUTF8String:cString] autorelease];
 	OPENSSL_free(cString);
 	
 	return dString;
@@ -211,15 +211,13 @@
 	
 	// Create the data from the dictionary
 	NSString *error = nil;
-	NSData *licenseFile = [[NSPropertyListSerialization dataFromPropertyList:licenseDict 
+	NSData *licenseFile = [NSPropertyListSerialization dataFromPropertyList:licenseDict 
 														format:kCFPropertyListXMLFormat_v1_0 
-														errorDescription:&error] retain];
+														errorDescription:&error];
 	
 	if (licenseFile == nil) {
 		if (err != NULL) 
 			*err = [NSError errorWithDomain:AQPErrorDomain code:-2 userInfo:[NSDictionary dictionaryWithObject:error forKey:NSLocalizedDescriptionKey]];
-		
-		
 		return nil;
 	}
 	
