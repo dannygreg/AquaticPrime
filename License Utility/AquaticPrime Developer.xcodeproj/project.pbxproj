@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		25C22E76108E664700D1D72F /* AquaticPrime.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C22E75108E664700D1D72F /* AquaticPrime.m */; };
+		3053049112226F280006EDE9 /* AquaticPrime.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 307C940612226E1C00D8BC5A /* AquaticPrime.framework */; };
+		3053049212226F350006EDE9 /* AquaticPrime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 307C940612226E1C00D8BC5A /* AquaticPrime.framework */; };
 		3D12D14B085206240035BA78 /* add.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3D12D14A085206240035BA78 /* add.tiff */; };
 		3D12D159085208CC0035BA78 /* StatusController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D12D158085208CC0035BA78 /* StatusController.m */; };
 		3D12D1C008520D0E0035BA78 /* ProductController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D12D1BF08520D0E0035BA78 /* ProductController.m */; };
@@ -33,24 +34,49 @@
 		E804BCA70833AAFD00512005 /* KeyController.m in Sources */ = {isa = PBXBuildFile; fileRef = E804BCA60833AAFD00512005 /* KeyController.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3053048F12226F110006EDE9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 307C940012226E1C00D8BC5A /* AquaticPrime.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* AquaticPrime */;
+			remoteInfo = AquaticPrime;
+		};
+		307C940512226E1C00D8BC5A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 307C940012226E1C00D8BC5A /* AquaticPrime.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = AquaticPrime;
+		};
+		307C940712226E1C00D8BC5A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 307C940012226E1C00D8BC5A /* AquaticPrime.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D9B64D7086DCB44006322F1;
+			remoteInfo = libAquaticPrime;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
-		A0BFCA2509A3F240005C04A5 /* CopyFiles */ = {
+		A0BFCA2509A3F240005C04A5 /* Copy Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				3053049112226F280006EDE9 /* AquaticPrime.framework in Copy Frameworks */,
 			);
+			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		25C22E74108E664700D1D72F /* AquaticPrime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AquaticPrime.h; sourceTree = "<group>"; };
-		25C22E75108E664700D1D72F /* AquaticPrime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AquaticPrime.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		307C940012226E1C00D8BC5A /* AquaticPrime.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AquaticPrime.xcodeproj; path = ../Source/Cocoa/AquaticPrime.xcodeproj; sourceTree = SOURCE_ROOT; };
 		32CA4F630368D1EE00C91783 /* AquaticPrimeDeveloper_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AquaticPrimeDeveloper_Prefix.pch; sourceTree = "<group>"; };
 		3D12D14A085206240035BA78 /* add.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = add.tiff; sourceTree = "<group>"; };
 		3D12D157085208CC0035BA78 /* StatusController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = StatusController.h; sourceTree = "<group>"; };
@@ -93,6 +119,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3053049212226F350006EDE9 /* AquaticPrime.framework in Frameworks */,
 				A0DA7A7509B3B3AA00673D39 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -103,7 +130,6 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				25C22E68108E661700D1D72F /* Cocoa */,
 				3DB12D8E088046A600160861 /* Main Controller */,
 				3DB12C2808803BE900160861 /* Key Controller */,
 				3DB12C2708803BDC00160861 /* Product Controller */,
@@ -123,16 +149,6 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
-		};
-		25C22E68108E661700D1D72F /* Cocoa */ = {
-			isa = PBXGroup;
-			children = (
-				25C22E74108E664700D1D72F /* AquaticPrime.h */,
-				25C22E75108E664700D1D72F /* AquaticPrime.m */,
-			);
-			name = Cocoa;
-			path = ../Source/Cocoa;
-			sourceTree = SOURCE_ROOT;
 		};
 		29B97314FDCFA39411CA2CEA /* AquaticPrimeDeveloper */ = {
 			isa = PBXGroup;
@@ -171,9 +187,19 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				307C940012226E1C00D8BC5A /* AquaticPrime.xcodeproj */,
 				A0DA7A7409B3B3AA00673D39 /* Cocoa.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		307C940112226E1C00D8BC5A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				307C940612226E1C00D8BC5A /* AquaticPrime.framework */,
+				307C940812226E1C00D8BC5A /* libAquaticPrime.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		3D12D149085206240035BA78 /* Images */ = {
@@ -302,11 +328,12 @@
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
-				A0BFCA2509A3F240005C04A5 /* CopyFiles */,
+				A0BFCA2509A3F240005C04A5 /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				3053049012226F110006EDE9 /* PBXTargetDependency */,
 			);
 			name = AquaticPrimeDeveloper;
 			productInstallPath = "$(HOME)/Applications";
@@ -324,12 +351,35 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* AquaticPrimeDeveloper */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 307C940112226E1C00D8BC5A /* Products */;
+					ProjectRef = 307C940012226E1C00D8BC5A /* AquaticPrime.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* AquaticPrimeDeveloper */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		307C940612226E1C00D8BC5A /* AquaticPrime.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AquaticPrime.framework;
+			remoteRef = 307C940512226E1C00D8BC5A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		307C940812226E1C00D8BC5A /* libAquaticPrime.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAquaticPrime.a;
+			remoteRef = 307C940712226E1C00D8BC5A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D1107290486CEB800E47090 /* Resources */ = {
@@ -368,11 +418,18 @@
 				3DD108F80881726E00C4C6B4 /* AboutController.m in Sources */,
 				3D160600089D3DBC00526ED8 /* OAGradientTableView.m in Sources */,
 				3D1606A4089D41C100526ED8 /* AQTextFieldCell.m in Sources */,
-				25C22E76108E664700D1D72F /* AquaticPrime.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3053049012226F110006EDE9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AquaticPrime;
+			targetProxy = 3053048F12226F110006EDE9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
