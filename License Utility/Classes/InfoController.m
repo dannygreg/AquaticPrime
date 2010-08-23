@@ -111,15 +111,15 @@
 		NSString *currentProduct = [productArray objectAtIndex:productIndex];
 		NSData *publicKey = [productKeyDictionary objectForKey:currentProduct];
 		NSMutableString *publicKeyString = [NSMutableString stringWithString:[publicKey description]];
-		[publicKeyString replaceOccurrencesOfString:@" " withString:@"" options:nil range:NSMakeRange(0, [publicKeyString length])];
-		[publicKeyString replaceOccurrencesOfString:@"<" withString:@"" options:nil range:NSMakeRange(0, [publicKeyString length])];
-		[publicKeyString replaceOccurrencesOfString:@">" withString:@"" options:nil range:NSMakeRange(0, [publicKeyString length])];
+		[publicKeyString replaceOccurrencesOfString:@" " withString:@"" options:0 range:NSMakeRange(0, [publicKeyString length])];
+		[publicKeyString replaceOccurrencesOfString:@"<" withString:@"" options:0 range:NSMakeRange(0, [publicKeyString length])];
+		[publicKeyString replaceOccurrencesOfString:@">" withString:@"" options:0 range:NSMakeRange(0, [publicKeyString length])];
 		
 		NSData *licenseData = [NSData dataWithContentsOfFile:licensePath];
 		
 		AquaticPrime *licenseChecker = [[[AquaticPrime alloc] init] autorelease];
 		NSError *err = nil;
-		licenseDictionary = [licenseDictionary verifiedDictionaryForLicenseData:licenseData	error:&err];
+		licenseDictionary = [licenseChecker verifiedDictionaryForLicenseData:licenseData	error:&err];
 		
 		if (licenseDictionary == nil) {
 			NSLog(@"Error creating dictionary from license data: %@", err);
