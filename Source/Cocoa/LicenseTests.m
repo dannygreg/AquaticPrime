@@ -27,7 +27,6 @@
 #import "LicenseTests.h"
 
 #import "AquaticPrime.h"
-#import "AquaticPrime+SerialNumberSupport.h"
 
 @interface LicenseTests ()
 
